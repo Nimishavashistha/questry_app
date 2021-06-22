@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:questry/app/modules/home/home_page.dart';
-// import './app/routes/app_pages.dart';
+import './app/routes/app_pages.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +21,8 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'RobotoCondensed',
                   fontWeight: FontWeight.bold))),
-      home: HomePage(),
+      initialRoute: AppRoutes.signup,
+      getPages: AppPages.pages,
     );
   }
 }
