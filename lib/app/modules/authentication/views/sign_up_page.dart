@@ -81,6 +81,11 @@ class GMSignUpPage extends StatelessWidget {
                                 controller: TextEditingController(
                                     text: controller.user.username),
                                 hintText: "Name",
+                                validationFun: (value) =>
+                                    controller.passValidation(value),
+                                onchanged: (value) {
+                                  controller.user.username = value;
+                                },
                                 prefixIcon: Icon(
                                   Icons.person,
                                   color: Colors.white,
@@ -118,10 +123,10 @@ class GMSignUpPage extends StatelessWidget {
                               SizedBox(height: 10.0),
                               CustomButton(
                                 buttonName: "Sign Up",
-                                paddingH: 35.0,
                                 onPress: () {
                                   controller.submitSignUp();
                                 },
+                                paddingH: 35.0,
                               ),
                               Spacer(),
                             ],

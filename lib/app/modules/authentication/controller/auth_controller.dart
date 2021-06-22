@@ -40,11 +40,8 @@ class AuthController extends GetxController {
 
   void submitSignUp() {
     if (formKey.currentState.validate()) {
-      print("user email: ${user.email}");
-      print("pass: ${user.password}");
-
+      print("in sign up function");
       signUpSave();
-//      RoutesManagement.goToSignInScreen();
     } else {
       print("not ok");
     }
@@ -62,8 +59,9 @@ class AuthController extends GetxController {
   }
 
   Future signUpSave() async {
-    var res = await http.post(
-        Uri.parse("http://10.0.2.2:8800/api/auth/register"),
+    print("sign up save function");
+    var url = Uri.parse("http://10.0.2.2:8800/api/auth/register");
+    final res = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -73,6 +71,5 @@ class AuthController extends GetxController {
           'password': user.password
         }));
     print(res.body);
-    RoutesManagement.goToSignInScreen();
   }
 }
