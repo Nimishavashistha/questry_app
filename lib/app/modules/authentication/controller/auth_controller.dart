@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:questry/app/routes/routes_management.dart';
 import '../../../data/User.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
-  final formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   User user = User('', '');
 
   String emailvalidation(String value) {
@@ -40,7 +39,6 @@ class AuthController extends GetxController {
 
   void submitSignUp() {
     if (formKey.currentState.validate()) {
-      print("in sign up function");
       signUpSave();
     } else {
       print("not ok");
@@ -55,11 +53,9 @@ class AuthController extends GetxController {
         },
         body: jsonEncode(
             <String, String>{'email': user.email, 'password': user.password}));
-    print(res.body);
   }
 
   Future signUpSave() async {
-    print("sign up save function");
     var url = Uri.parse("http://10.0.2.2:8800/api/auth/register");
     final res = await http.post(url,
         headers: <String, String>{
@@ -70,6 +66,5 @@ class AuthController extends GetxController {
           'email': user.email,
           'password': user.password
         }));
-    print(res.body);
   }
 }

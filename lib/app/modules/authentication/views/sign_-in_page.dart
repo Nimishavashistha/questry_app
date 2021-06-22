@@ -95,7 +95,9 @@ class SignInPage extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          RoutesManagement.goToSignUpScreen();
+                        },
                         child: GlassMorphismContainer(
                           height: 50.0,
                           width: Get.width * 0.8,

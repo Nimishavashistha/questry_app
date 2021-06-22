@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'RobotoCondensed',
                   fontWeight: FontWeight.bold))),
-      initialRoute: AppRoutes.signup,
+      initialRoute: AppRoutes.signin,
       getPages: AppPages.pages,
     );
   }

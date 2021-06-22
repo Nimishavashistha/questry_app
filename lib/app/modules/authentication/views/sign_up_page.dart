@@ -27,7 +27,6 @@ class GMSignUpPage extends StatelessWidget {
             ),
             child: GetBuilder<AuthController>(
               builder: (controller) => Form(
-                key: controller.formKey,
                 child: Stack(
                   children: [
                     Column(
