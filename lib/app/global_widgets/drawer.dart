@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:questry/app/constants/colors.dart';
+import 'package:questry/app/routes/routes_management.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function tapHandler) {
@@ -122,6 +123,19 @@ class MainDrawer extends StatelessWidget {
               ),
               label: Text(
                 "Events",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+          TextButton.icon(
+              onPressed: () {
+                RoutesManagement.goToEditProfilePage();
+              },
+              icon: Icon(
+                Icons.edit_attributes,
+                color: Colors.black,
+                size: 23,
+              ),
+              label: Text(
+                "Edit Profile",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
           TextButton.icon(

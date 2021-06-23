@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/feed/views/feedScreen.dart';
+import 'package:questry/app/modules/profile/views/pages/edit_profile.dart';
 import './app/routes/app_pages.dart';
 
 void main() {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'RobotoCondensed',
                   fontWeight: FontWeight.bold))),
-      initialRoute: AppRoutes.signin,
+      initialRoute: AppRoutes.FeedScreen,
       getPages: AppPages.pages,
     );
   }
