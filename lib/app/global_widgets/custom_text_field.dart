@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
-  final Icon prefixIcon;
+  final IconButton suffixIcon;
   final TextEditingController controller;
   final Function onchanged;
   final Function validationFun;
 
   final bool isObscure;
 
-  const CustomTextField(
-      {Key key,
-      this.hintText,
-      this.prefixIcon,
-      this.isObscure = false,
-      this.controller,
-      this.onchanged,
-      this.validationFun})
-      : super(key: key);
+  const CustomTextField({
+    Key key,
+    this.hintText,
+    this.suffixIcon,
+    this.isObscure = false,
+    this.controller,
+    this.onchanged,
+    this.validationFun,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class CustomTextField extends StatelessWidget {
                 Radius.circular(30.0),
               ),
               borderSide: BorderSide(color: Colors.red)),
-          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
           hintText: hintText,
           hintStyle: TextStyle(
             color: Colors.white.withOpacity(0.8),

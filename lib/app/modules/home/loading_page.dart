@@ -2,19 +2,21 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:questry/app/constants/colors.dart';
-import 'package:questry/app/global_widgets/custom_button.dart';
 import 'package:questry/app/global_widgets/glassmorphism_container.dart';
 
-class HomePage extends StatelessWidget {
+class LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [tealBack, purpleBack],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
+            colors: [tealBack, purpleBack],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 1.0],
+            tileMode: TileMode.repeated,
+          ),
         ),
         child: Stack(
           children: [
@@ -65,10 +67,27 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        alignment: Alignment.center,
-                        child: CustomButton(
-                            buttonName: "Get Started", onPress: () {}),
-                      )
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 25.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25.0),
+                                  )),
+                              child: Text(
+                                "Get Started",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                              ),
+                            ),
+                          ))
                     ],
                   ),
                 ),

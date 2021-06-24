@@ -3,11 +3,11 @@ import 'app_pages.dart';
 
 abstract class RoutesManagement {
   static void goToSignUpScreen() {
-    Get.toNamed<void>(AppRoutes.signup);
+    Get.off<void>(AppRoutes.signup);
   }
 
   static void goToSignInScreen() {
-    Get.toNamed<void>(AppRoutes.signin);
+    Get.off<void>(AppRoutes.signin);
   }
 
   static void goToProfilePage() {

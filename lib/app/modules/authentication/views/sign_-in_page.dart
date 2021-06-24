@@ -52,19 +52,21 @@ class SignInPage extends StatelessWidget {
                             ),
                             Spacer(),
                             CustomTextField(
-                              controller: TextEditingController(
-                                  text: controller.user.email),
-                              onchanged: (value) {
-                                controller.user.email = value;
-                              },
-                              validationFun: (value) =>
-                                  controller.emailvalidation(value),
-                              hintText: "Email",
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.white,
-                              ),
-                            ),
+                                controller: TextEditingController(
+                                    text: controller.user.email),
+                                onchanged: (value) {
+                                  controller.user.email = value;
+                                },
+                                validationFun: (value) =>
+                                    controller.emailvalidation(value),
+                                hintText: "Email",
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {},
+                                )),
                             CustomTextField(
                               controller: TextEditingController(
                                   text: controller.user.password),
@@ -74,16 +76,22 @@ class SignInPage extends StatelessWidget {
                               validationFun: (value) =>
                                   controller.passValidation(value),
                               hintText: "Password",
-                              prefixIcon: Icon(
-                                Icons.remove_red_eye,
+                              suffixIcon: IconButton(
+                                icon: Icon(controller.vis_signin
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                                 color: Colors.white,
+                                onPressed: () {
+                                  controller.changeVisSign();
+                                },
                               ),
-                              // isObscure: true,
+                              isObscure: controller.vis_signin,
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
                             CustomButton(
+                              circular: controller.circular_signin,
                               buttonName: "Sign In",
                               onPress: () {
                                 controller.submitSignIn();

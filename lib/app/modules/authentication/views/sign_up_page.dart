@@ -27,6 +27,7 @@ class GMSignUpPage extends StatelessWidget {
             ),
             child: GetBuilder<AuthController>(
               builder: (controller) => Form(
+                key: controller.formKey,
                 child: Stack(
                   children: [
                     Column(
@@ -76,34 +77,23 @@ class GMSignUpPage extends StatelessWidget {
                                 ),
                               ),
                               Spacer(),
+                              userNameTextField(),
                               CustomTextField(
-                                controller: TextEditingController(
-                                    text: controller.user.username),
-                                hintText: "Name",
-                                validationFun: (value) =>
-                                    controller.passValidation(value),
-                                onchanged: (value) {
-                                  controller.user.username = value;
-                                },
-                                prefixIcon: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              CustomTextField(
-                                controller: TextEditingController(
-                                    text: controller.user.email),
-                                validationFun: (value) =>
-                                    controller.emailvalidation(value),
-                                onchanged: (value) {
-                                  controller.user.email = value;
-                                },
-                                hintText: "Email",
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  color: Colors.white,
-                                ),
-                              ),
+                                  controller: TextEditingController(
+                                      text: controller.user.email),
+                                  validationFun: (value) =>
+                                      controller.emailvalidation(value),
+                                  onchanged: (value) {
+                                    controller.user.email = value;
+                                  },
+                                  hintText: "Email",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {},
+                                  )),
                               CustomTextField(
                                 controller: TextEditingController(
                                     text: controller.user.password),
@@ -113,14 +103,20 @@ class GMSignUpPage extends StatelessWidget {
                                 validationFun: (value) =>
                                     controller.passValidation(value),
                                 hintText: "Password",
-                                prefixIcon: Icon(
-                                  Icons.remove_red_eye,
+                                suffixIcon: IconButton(
+                                  icon: Icon(controller.vis_signup
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
                                   color: Colors.white,
+                                  onPressed: () {
+                                    controller.changeVis();
+                                  },
                                 ),
-                                isObscure: true,
+                                isObscure: controller.vis_signup,
                               ),
                               SizedBox(height: 10.0),
                               CustomButton(
+                                circular: controller.circular_signup,
                                 buttonName: "Sign Up",
                                 onPress: () {
                                   controller.submitSignUp();
@@ -144,6 +140,68 @@ class GMSignUpPage extends StatelessWidget {
                 ),
               ),
             )),
+      ),
+    );
+  }
+
+  Widget userNameTextField() {
+    return GetBuilder<AuthController>(
+      builder: (controller) => Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.0,
+        ),
+        margin: EdgeInsets.all(16.0),
+        child: TextFormField(
+          autofocus: true,
+          controller: TextEditingController(text: controller.user.username),
+          onChanged: (value) {
+            controller.user.username = value;
+          },
+          validator: (value) => controller.usernameValidation(value),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+          ),
+          decoration: InputDecoration(
+            errorText: controller.validate_signup ? null : controller.errorText,
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
+                ),
+                borderSide: BorderSide(color: Colors.white)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
+                ),
+                borderSide: BorderSide(color: Colors.white)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
+                ),
+                borderSide: BorderSide(color: Colors.red)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
+                ),
+                borderSide: BorderSide(color: Colors.red)),
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                print(controller.errorText);
+                print("validate=${controller.validate_signup}");
+              },
+            ),
+            hintText: "Username",
+            hintStyle: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontSize: 18.0,
+            ),
+            border: InputBorder.none,
+          ),
+        ),
       ),
     );
   }

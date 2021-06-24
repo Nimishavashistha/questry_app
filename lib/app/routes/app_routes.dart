@@ -7,6 +7,7 @@ abstract class AppRoutes {
   static const FeedScreen = _Paths.FeedScreen;
   static const EditProfile = _Paths.EditProfile;
   static const settings = _Paths.settings;
+  static const loadingPage = _Paths.LoadingPage;
 }
 
 abstract class _Paths {
@@ -16,4 +17,5 @@ abstract class _Paths {
   static const FeedScreen = '/feedScreen';
   static const EditProfile = '/editprofile';
   static const settings = '/settings';
+  static const LoadingPage = '/Loadingpage';
 }

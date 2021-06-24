@@ -1,15 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
 import 'package:questry/app/modules/feed/views/feedScreen.dart';
-import 'package:questry/app/modules/profile/views/pages/edit_profile.dart';
+import 'package:questry/app/modules/home/loading_page.dart';
 import './app/routes/app_pages.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Widget page = LoadingPage();
+  final storage = FlutterSecureStorage();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLogin();
+  }
+
+  void checkLogin() async {
+    String token = await storage.read(key: "token");
+    if (token != null) {
+      setState(() {
+        page = FeedScreen();
+      });
+    } else {
+      setState(() {
+        page = GMSignUpPage();
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -23,7 +52,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: 'RobotoCondensed',
                   fontWeight: FontWeight.bold))),
-      initialRoute: AppRoutes.FeedScreen,
+      home: page,
       getPages: AppPages.pages,
     );
   }
