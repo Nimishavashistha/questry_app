@@ -21,4 +21,8 @@ abstract class RoutesManagement {
   static void goToSettingsPage() {
     Get.toNamed<void>(AppRoutes.settings);
   }
+
+  static void goToCreateProfilePage() {
+    Get.toNamed<void>(AppRoutes.createProfile);
+  }
 }

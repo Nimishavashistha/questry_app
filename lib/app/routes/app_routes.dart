@@ -8,6 +8,7 @@ abstract class AppRoutes {
   static const EditProfile = _Paths.EditProfile;
   static const settings = _Paths.settings;
   static const loadingPage = _Paths.LoadingPage;
+  static const createProfile = _Paths.createProfile;
 }
 
 abstract class _Paths {
@@ -18,4 +19,5 @@ abstract class _Paths {
   static const EditProfile = '/editprofile';
   static const settings = '/settings';
   static const LoadingPage = '/Loadingpage';
+  static const createProfile = '/createProfile';
 }
