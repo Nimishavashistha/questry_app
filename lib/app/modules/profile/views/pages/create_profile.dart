@@ -135,10 +135,6 @@ class CreateProfilePage extends StatelessWidget {
           color: Colors.orange,
           width: 2,
         )),
-        prefixIcon: Icon(
-          Icons.person,
-          color: Colors.green,
-        ),
         labelText: "Semester",
         helperText: "Semester can't be empty",
         hintText: "3rd",
@@ -165,7 +161,7 @@ class CreateProfilePage extends StatelessWidget {
         )),
         prefixIcon: Icon(
           Icons.person,
-          color: Colors.green,
+          color: Colors.teal,
         ),
         labelText: "city",
         helperText: "It can't be empty",
