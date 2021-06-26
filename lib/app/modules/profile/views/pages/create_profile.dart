@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/profile/controller/profile_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
+        body: GetBuilder<ProfileController>(
+      builder: (controller) => Form(
+        key: controller.globalKey,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           children: <Widget>[
@@ -13,20 +17,22 @@ class CreateProfilePage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            semesterTextField(),
+            semesterTextField(controller.semester),
             SizedBox(
               height: 20,
             ),
-            LocationTextField(),
+            LocationTextField(controller.location),
             SizedBox(
               height: 20,
             ),
-            aboutTextField(),
+            aboutTextField(controller.about),
             SizedBox(
               height: 20,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                controller.submit();
+              },
               child: Center(
                 child: Container(
                   width: 200,
@@ -51,7 +57,7 @@ class CreateProfilePage extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 
   Widget imageProfile() {
@@ -83,43 +89,50 @@ class CreateProfilePage extends StatelessWidget {
   }
 
   Widget bottomSheet() {
-    return Container(
-      height: 100.0,
-      width: MediaQuery.of(Get.context).size.width,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Choose Profile photo",
-            style: TextStyle(
-              fontSize: 20.0,
+    return GetBuilder<ProfileController>(
+      builder: (controller) => Container(
+        height: 100.0,
+        width: MediaQuery.of(Get.context).size.width,
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Choose Profile photo",
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.camera),
-              onPressed: () {},
-              label: Text("Camera"),
+            SizedBox(
+              height: 20,
             ),
-            FlatButton.icon(
-              icon: Icon(Icons.image),
-              onPressed: () {},
-              label: Text("Gallery"),
-            ),
-          ])
-        ],
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.camera),
+                onPressed: () {
+                  controller.takePhoto(ImageSource.camera);
+                },
+                label: Text("Camera"),
+              ),
+              FlatButton.icon(
+                icon: Icon(Icons.image),
+                onPressed: () {
+                  controller.takePhoto(ImageSource.gallery);
+                },
+                label: Text("Gallery"),
+              ),
+            ])
+          ],
+        ),
       ),
     );
   }
 
-  Widget semesterTextField() {
+  Widget semesterTextField(TextEditingController semesterController) {
     return TextFormField(
+      controller: semesterController,
       validator: (value) {
         if (value.isEmpty) return "semester can't be empty";
 
@@ -142,8 +155,9 @@ class CreateProfilePage extends StatelessWidget {
     );
   }
 
-  Widget LocationTextField() {
+  Widget LocationTextField(TextEditingController locationController) {
     return TextFormField(
+      controller: locationController,
       validator: (value) {
         if (value.isEmpty) return "City name can't be empty";
 
@@ -170,8 +184,9 @@ class CreateProfilePage extends StatelessWidget {
     );
   }
 
-  Widget aboutTextField() {
+  Widget aboutTextField(TextEditingController aboutController) {
     return TextFormField(
+      controller: aboutController,
       validator: (value) {
         if (value.isEmpty) return "About can't be empty";
 
