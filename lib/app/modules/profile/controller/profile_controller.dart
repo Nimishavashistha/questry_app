@@ -44,6 +44,7 @@ class ProfileController extends GetxController {
     final pickedFile = await _picker.getImage(
       source: source,
     );
+    imageFile = pickedFile;
     update();
   }
 
@@ -69,6 +70,7 @@ class ProfileController extends GetxController {
     print("response ${response.body}");
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (imageFile.path != null) {
+        print("inside image");
         var url = "http://10.0.2.2:8800/api/upload";
         var imageResponse = patchImage(url, imageFile.path);
         print(imageResponse);
@@ -89,16 +91,12 @@ class ProfileController extends GetxController {
   Future<http.StreamedResponse> patchImage(String url, String filepath) async {
     String token = await storage.read(key: "token");
     var request = http.MultipartRequest('PATCH', Uri.parse(url));
-    request.files.add(await http.MultipartFile.fromPath("img", filepath));
+    request.files.add(await http.MultipartFile.fromPath("file", filepath));
     request.headers.addAll({
       "Content-type": "multipart/form-data",
       "Authorization": "Bearer $token"
     });
     var response = request.send();
     return response;
-  }
-
-  Widget showProfile() {
-    return Center(child: Text("Profile Data is Avalable"));
   }
 }

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:questry/app/routes/routes_management.dart';
 import 'package:get/get.dart';
 
@@ -83,10 +86,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ],
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
-                                ))),
+                              fit: BoxFit.cover,
+                              image: controller.imageFile == null
+                                  ? NetworkImage(
+                                      "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                    )
+                                  : FileImage(File(controller.imageFile.path)),
+                            )),
                       ),
                       Positioned(
                           bottom: 0,
@@ -103,10 +109,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ),
                               color: primaryColor,
                             ),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                            ),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: ((builder) => bottomSheet()));
+                                }),
                           )),
                     ],
                   ),
@@ -159,6 +171,48 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget bottomSheet() {
+    return GetBuilder<ProfileController>(
+      builder: (controller) => Container(
+        height: 100.0,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Choose Profile photo",
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.camera),
+                onPressed: () {
+                  controller.takePhoto(ImageSource.camera);
+                },
+                label: Text("Camera"),
+              ),
+              FlatButton.icon(
+                icon: Icon(Icons.image),
+                onPressed: () {
+                  controller.takePhoto(ImageSource.gallery);
+                },
+                label: Text("Gallery"),
+              ),
+            ])
+          ],
         ),
       ),
     );
