@@ -47,40 +47,41 @@ class ProfileController extends GetxController {
     update();
   }
 
-  Future submit() async {
+  void submit() async {
     print("inside submit function");
     circular = true;
     update();
     String token = await storage.read(key: "token");
-    if (globalKey.currentState.validate()) {
-      var url = Uri.parse("http://10.0.2.2:8800/api/users/profile/");
-      final response = await http.post(url,
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            "Authorization": "Bearer $token"
-          },
-          body: jsonEncode(<String, String>{
-            "sem": semester.text,
-            "from": location.text,
-            "desc": about.text,
-          }));
-      print("response ${response.body}");
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (imageFile.path != null) {
-          var url = "http://10.0.2.2:8800/api/upload";
-          var imageResponse = patchImage(url, imageFile.path);
-          print(imageResponse);
+    var url = Uri.parse("http://10.0.2.2:8800/api/users/update");
+    print("semester=${semester.text}");
+    print("from=${location.text}");
+    print("about=${about.text}");
+    final response = await http.patch(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "sem": semester.text,
+          "from": location.text,
+          "desc": about.text,
+        }));
+    print("response ${response.body}");
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (imageFile.path != null) {
+        var url = "http://10.0.2.2:8800/api/upload";
+        var imageResponse = patchImage(url, imageFile.path);
+        print(imageResponse);
 
-          // if (imageResponse.statusCode == 200) {
-          //   circular = false;
-          //   update();
-          //   Get.offAll(() => FeedScreen());
-          // }
-        } else {
-          circular = false;
-          update();
-          Get.offAll(() => FeedScreen());
-        }
+        // if (imageResponse.statusCode == 200) {
+        //   circular = false;
+        //   update();
+        //   Get.offAll(() => FeedScreen());
+        // }
+      } else {
+        circular = false;
+        update();
+        Get.offAll(() => FeedScreen());
       }
     }
   }

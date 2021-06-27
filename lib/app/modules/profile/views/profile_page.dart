@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/global_widgets/drawer.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
+import 'package:questry/app/routes/routes_management.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -54,17 +55,46 @@ class ProfilePage extends StatelessWidget {
                                   image: NetworkImage(
                                       "https://images.unsplash.com/photo-1549778399-f94fd24d4697?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NTh8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"),
                                   fit: BoxFit.cover)),
-                          child: Container(
-                            width: double.infinity,
-                            height: 160,
-                            child: Container(
-                              alignment: Alignment(0.0, 2.5),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                                radius: 60.0,
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 160,
+                                child: Container(
+                                  alignment: Alignment(0.0, 2.5),
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                                    radius: 60.0,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                  bottom: 0,
+                                  right: 120.0,
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: 4,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      color: primaryColor,
+                                    ),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        RoutesManagement.goToEditProfilePage();
+                                      },
+                                    ),
+                                  ))
+                            ],
                           ),
                         ),
                         SizedBox(
