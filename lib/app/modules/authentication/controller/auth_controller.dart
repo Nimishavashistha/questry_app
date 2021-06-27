@@ -150,7 +150,6 @@ class AuthController extends GetxController {
       update();
     } else {
       var response = await http.get(url);
-      print(response.body.split(":")[1].startsWith("t"));
       if (response.body.split(":")[1].startsWith("t")) {
         validate_signup = false;
         errorText = "Username already taken";

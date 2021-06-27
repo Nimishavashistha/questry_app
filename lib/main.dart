@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
 import 'package:questry/app/modules/feed/views/feedScreen.dart';
 import 'package:questry/app/modules/home/loading_page.dart';
-import 'package:questry/app/modules/profile/views/pages/add_profile.dart';
 import './app/routes/app_pages.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
 
   void checkLogin() async {
     String token = await storage.read(key: "token");
+    print(token);
     if (token != null) {
       setState(() {
         page = FeedScreen();
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.white,
                   fontFamily: 'RobotoCondensed',
                   fontWeight: FontWeight.bold))),
-      home: AddProfile(),
+      home: page,
       getPages: AppPages.pages,
     );
   }
