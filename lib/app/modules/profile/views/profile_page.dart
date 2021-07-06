@@ -12,38 +12,6 @@ class ProfilePage extends StatelessWidget {
     return GetBuilder<ProfileController>(
         builder: (controller) => Scaffold(
             backgroundColor: Colors.grey.shade200,
-            appBar: AppBar(
-              backgroundColor: primaryColor,
-              title: Text(
-                "Questry",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              actions: [
-                Stack(
-                  children: [
-                    IconButton(
-                        iconSize: 28,
-                        icon: Icon(
-                          Icons.notifications,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {}),
-                    Positioned(
-                      top: 2,
-                      right: 4,
-                      child: CircleAvatar(
-                          radius: 9,
-                          backgroundColor: Colors.red,
-                          child: Text(
-                            "7",
-                            style: TextStyle(color: Colors.white, fontSize: 10),
-                          )),
-                    )
-                  ],
-                )
-              ],
-            ),
-            drawer: MainDrawer(),
             body: SafeArea(
               child: controller.circular
                   ? Center(child: CircularProgressIndicator())

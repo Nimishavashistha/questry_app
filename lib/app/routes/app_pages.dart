@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
+import 'package:questry/app/modules/feed/binding/feed_binding.dart';
 import 'package:questry/app/modules/feed/views/feedScreen.dart';
+import 'package:questry/app/modules/feed/views/pages/add_posts.dart';
+import 'package:questry/app/modules/home/bindings/home_binding.dart';
+import 'package:questry/app/modules/home/homepage.dart';
 import 'package:questry/app/modules/home/loading_page.dart';
 import 'package:questry/app/modules/profile/bindings/profile_binding.dart';
 import 'package:questry/app/modules/profile/views/pages/edit_profile.dart';
@@ -24,8 +28,14 @@ abstract class AppPages {
         transitionDuration: transitionDuration,
         binding: AuthBinding()),
     GetPage(
-      name: _Paths.FeedScreen,
-      page: () => FeedScreen(),
+        name: _Paths.FeedScreen,
+        page: () => FeedScreen(),
+        transitionDuration: transitionDuration,
+        binding: FeedBinding()),
+    GetPage(
+      name: _Paths.homePage,
+      page: () => HomePage(),
+      binding: HomeBinding(),
       transitionDuration: transitionDuration,
     ),
     GetPage(
@@ -36,6 +46,7 @@ abstract class AppPages {
     GetPage(
       name: _Paths.EditProfile,
       page: () => EditProfilePage(),
+      binding: ProfileBinding(),
       transitionDuration: transitionDuration,
     ),
     GetPage(
@@ -44,8 +55,14 @@ abstract class AppPages {
       transitionDuration: transitionDuration,
     ),
     GetPage(
-      name: _Paths.LoadingPage,
-      page: () => LoadingPage(),
+        name: _Paths.LoadingPage,
+        page: () => LoadingPage(),
+        transitionDuration: transitionDuration,
+        binding: AuthBinding()),
+    GetPage(
+      name: _Paths.addPost,
+      page: () => AddPost(),
+      binding: FeedBinding(),
       transitionDuration: transitionDuration,
     )
   ];

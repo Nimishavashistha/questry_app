@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:questry/app/data/profileModel.dart';
-import 'package:questry/app/modules/feed/views/feedScreen.dart';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:questry/app/modules/home/homepage.dart';
 
 class ProfileController extends GetxController {
   final globalKey = GlobalKey<FormState>();
@@ -17,6 +17,17 @@ class ProfileController extends GetxController {
   bool circular = false;
   FlutterSecureStorage storage = FlutterSecureStorage();
   ProfileModel profileModel = ProfileModel();
+  int currentIndex = 0;
+
+  void setCurrentIndexToZero() {
+    currentIndex = 0;
+    update();
+  }
+
+  void setCurrentIndexToOne() {
+    currentIndex = 1;
+    update();
+  }
 
   @override
   void onInit() {
@@ -83,7 +94,7 @@ class ProfileController extends GetxController {
       } else {
         circular = false;
         update();
-        Get.offAll(() => FeedScreen());
+        Get.offAll(() => HomePage());
       }
     }
   }
@@ -94,7 +105,7 @@ class ProfileController extends GetxController {
     request.files.add(await http.MultipartFile.fromPath("file", filepath));
     request.headers.addAll({
       "Content-type": "multipart/form-data",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer $token",
     });
     var response = request.send();
     return response;

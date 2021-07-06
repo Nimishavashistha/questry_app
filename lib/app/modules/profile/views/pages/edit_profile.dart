@@ -37,7 +37,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Icons.arrow_back,
               color: primaryColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(Get.context);
+            },
           ),
           actions: [
             IconButton(
@@ -142,7 +144,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(Get.context);
+                      },
                       child: Text("CANCEL",
                           style: TextStyle(
                               fontSize: 14,

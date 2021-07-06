@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:questry/app/constants/colors.dart';
-import 'package:questry/app/global_widgets/drawer.dart';
-import 'package:questry/app/routes/routes_management.dart';
 
 class FeedScreen extends StatelessWidget {
   final String questionStmt;
@@ -15,35 +13,6 @@ class FeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: primaryColor,
-        title: Text(
-          'Questry',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        actions: [
-          InkWell(
-            onTap: () {
-              RoutesManagement.goToProfilePage();
-            },
-            child: Container(
-              width: 45,
-              height: 45,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: Colors.white,
-                      style: BorderStyle.solid,
-                      width: 2.0),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"))),
-            ),
-          ),
-        ],
-      ),
-      drawer: MainDrawer(),
       body: SafeArea(
         child: ListView(
           children: [

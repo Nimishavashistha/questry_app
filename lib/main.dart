@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/authentication/bindings/auth_binding.dart';
 import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
-import 'package:questry/app/modules/feed/views/feedScreen.dart';
+import 'package:questry/app/modules/feed/binding/feed_binding.dart';
+import 'package:questry/app/modules/home/bindings/home_binding.dart';
+import 'package:questry/app/modules/home/homepage.dart';
 import 'package:questry/app/modules/home/loading_page.dart';
+import 'package:questry/app/modules/profile/bindings/profile_binding.dart';
 import './app/routes/app_pages.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -17,8 +21,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget page = LoadingPage();
   final storage = FlutterSecureStorage();
+  Widget page = LoadingPage();
 
   @override
   void initState() {
@@ -32,16 +36,18 @@ class _MyAppState extends State<MyApp> {
     print(token);
     if (token != null) {
       setState(() {
-        page = FeedScreen();
+        page = HomePage();
       });
     } else {
       setState(() {
-        page = GMSignUpPage();
+        page = SignInPage();
       });
     }
+    print("inside checkToken: $page");
   }
 
   Widget build(BuildContext context) {
+    print("inside build $page");
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -56,6 +62,7 @@ class _MyAppState extends State<MyApp> {
                   fontWeight: FontWeight.bold))),
       home: page,
       getPages: AppPages.pages,
+      initialBinding: HomeBinding(),
     );
   }
 }

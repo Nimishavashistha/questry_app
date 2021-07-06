@@ -21,4 +21,8 @@ abstract class RoutesManagement {
   static void goToSettingsPage() {
     Get.toNamed<void>(AppRoutes.settings);
   }
+
+  static void goToAddPostsPage() {
+    Get.toNamed<void>(AppRoutes.addPost);
+  }
 }

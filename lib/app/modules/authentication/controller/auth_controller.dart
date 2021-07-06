@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:questry/app/modules/feed/views/feedScreen.dart';
+import 'package:questry/app/modules/home/homepage.dart';
 import '../../../data/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -89,7 +89,7 @@ class AuthController extends GetxController {
       await storage.write(key: "token", value: output["token"]);
       circular_signin = false;
       update();
-      Get.offAll(() => FeedScreen());
+      Get.offAll(() => HomePage());
     } else {
       String output = json.decode(res.body);
       errorText = output;
@@ -131,7 +131,7 @@ class AuthController extends GetxController {
 
         update();
 
-        Get.offAll(() => FeedScreen());
+        Get.offAll(() => HomePage());
       } else {
         Scaffold.of(Get.context)
             .showSnackBar(SnackBar(content: Text("Netwok Error")));
