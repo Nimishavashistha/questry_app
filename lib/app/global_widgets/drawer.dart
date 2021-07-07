@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:questry/app/constants/colors.dart';
+import 'package:questry/app/modules/profile/views/pages/posts.dart';
 import 'package:questry/app/routes/routes_management.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -104,7 +105,9 @@ class MainDrawer extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
           TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                RoutesManagement.goToMyPostsPage();
+              },
               icon: Icon(
                 Icons.question_answer_sharp,
                 color: Colors.black,

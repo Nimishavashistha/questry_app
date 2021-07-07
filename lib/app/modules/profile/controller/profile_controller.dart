@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:questry/app/data/addpostModel.dart';
 import 'package:questry/app/data/profileModel.dart';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:questry/app/data/superModel.dart';
 import 'package:questry/app/modules/home/homepage.dart';
 
 class ProfileController extends GetxController {
@@ -18,6 +20,8 @@ class ProfileController extends GetxController {
   FlutterSecureStorage storage = FlutterSecureStorage();
   ProfileModel profileModel = ProfileModel();
   int currentIndex = 0;
+  SuperModel superModel;
+  List<AddPostModel> data = [];
 
   void setCurrentIndexToZero() {
     currentIndex = 0;
@@ -33,6 +37,7 @@ class ProfileController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    fetchPostsData();
     fetchData();
   }
 
@@ -109,5 +114,23 @@ class ProfileController extends GetxController {
     });
     var response = request.send();
     return response;
+  }
+
+  void fetchPostsData() async {
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/posts/getOwnPost/");
+    var response = await http.get(
+      url,
+      headers: <String, String>{"Authorization": "Bearer $token"},
+    );
+    // print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("inside fetchpostsdata");
+      superModel = SuperModel.fromJson(json.decode(response.body));
+      data = superModel.data;
+      print(superModel);
+      print("data=$data");
+      update();
+    }
   }
 }

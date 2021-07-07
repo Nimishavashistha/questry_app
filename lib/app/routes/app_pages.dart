@@ -9,6 +9,7 @@ import 'package:questry/app/modules/home/homepage.dart';
 import 'package:questry/app/modules/home/loading_page.dart';
 import 'package:questry/app/modules/profile/bindings/profile_binding.dart';
 import 'package:questry/app/modules/profile/views/pages/edit_profile.dart';
+import 'package:questry/app/modules/profile/views/pages/posts.dart';
 import 'package:questry/app/modules/profile/views/profile_page.dart';
 import '../modules/authentication/bindings/auth_binding.dart';
 import 'package:questry/app/modules/profile/views/pages/settings.dart';
@@ -46,6 +47,12 @@ abstract class AppPages {
     GetPage(
       name: _Paths.EditProfile,
       page: () => EditProfilePage(),
+      binding: ProfileBinding(),
+      transitionDuration: transitionDuration,
+    ),
+    GetPage(
+      name: _Paths.myPosts,
+      page: () => PostScreen(),
       binding: ProfileBinding(),
       transitionDuration: transitionDuration,
     ),

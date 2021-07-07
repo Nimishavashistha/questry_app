@@ -7,7 +7,7 @@ class AddPostModel {
   String userId;
   String img;
   String desc;
-  int likes;
+  List likes;
   @JsonKey(name: "_id")
   String id;
 

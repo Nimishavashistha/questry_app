@@ -5,7 +5,7 @@ AddPostModel _$AddPostModelFromJson(Map<String, dynamic> json) {
     userId: json['userId'] as String,
     img: json['img'] as String,
     desc: json['desc'] as String,
-    likes: json['likes'] as int,
+    likes: json['likes'] as List,
     id: json['_id'] as String,
   );
 }
