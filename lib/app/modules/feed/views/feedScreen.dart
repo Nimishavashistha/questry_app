@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:questry/app/constants/colors.dart';
+import 'package:questry/app/data/addpostModel.dart';
+import 'package:get/get.dart';
+import 'package:questry/app/modules/feed/controller/feed_controller.dart';
+import 'package:questry/app/modules/profile/controller/profile_controller.dart';
 
 class FeedScreen extends StatelessWidget {
   final String questionStmt;
@@ -14,47 +18,76 @@ class FeedScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SafeArea(
-        child: ListView(
-          children: [
-            Stack(
-              children: <Widget>[
-                Container(
-                  height: 70.0,
-                  width: double.infinity,
-                  color: primaryColor,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF5F5F7),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.search,
+        child: GetBuilder<FeedController>(
+          builder: (controller) => ListView(
+            children: [
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: 70.0,
+                    width: double.infinity,
+                    color: primaryColor,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF5F5F7),
+                            borderRadius: BorderRadius.circular(40),
                           ),
-                          title: TextField(
-                            decoration: InputDecoration(
-                                hintText: "search for anything",
-                                hintStyle: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFFA0A5BD),
-                                ),
-                                border: InputBorder.none),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.search,
+                            ),
+                            title: TextField(
+                              decoration: InputDecoration(
+                                  hintText: "search for anything",
+                                  hintStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xFFA0A5BD),
+                                  ),
+                                  border: InputBorder.none),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                    ],
+                  )
+                ],
+              ),
+              Column(
+                children: controller.data
+                    .map((item) => post(
+                          addPostModel: item,
+                        ))
+                    .toList(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class post extends StatelessWidget {
+  final AddPostModel addPostModel;
+  const post({
+    Key key,
+    this.addPostModel,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<ProfileController>(
+      builder: (controller) => SafeArea(
+        child: Column(
+          children: [
             Card(
               margin: EdgeInsets.all(10.0),
               elevation: 1,
@@ -77,7 +110,7 @@ class FeedScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "What is error in this code?",
+                              addPostModel.desc,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 20,
@@ -85,9 +118,12 @@ class FeedScreen extends StatelessWidget {
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 15.0),
-                              child: Image(
-                                image: AssetImage("assets/images/result.png"),
-                              ),
+                              child: addPostModel.img != ""
+                                  ? Image(
+                                      image:
+                                          controller.getImage(addPostModel.id),
+                                    )
+                                  : Container(),
                             )
                           ],
                         )),
@@ -140,8 +176,11 @@ class FeedScreen extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDN8fHBlcnNvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                          backgroundColor: Colors.grey,
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
@@ -270,8 +309,11 @@ class FeedScreen extends StatelessWidget {
               tileColor: Colors.grey.shade300,
               leading: CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: NetworkImage(
-                    "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDN8fHBlcnNvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 30,
+                ),
               ),
               title: Padding(
                 padding: const EdgeInsets.all(8.0),

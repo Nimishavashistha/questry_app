@@ -22,6 +22,7 @@ class ProfileController extends GetxController {
   int currentIndex = 0;
   SuperModel superModel;
   List<AddPostModel> data = [];
+  String baseurl = "http://10.0.2.2:8800";
 
   void setCurrentIndexToZero() {
     currentIndex = 0;
@@ -128,9 +129,17 @@ class ProfileController extends GetxController {
       print("inside fetchpostsdata");
       superModel = SuperModel.fromJson(json.decode(response.body));
       data = superModel.data;
-      print(superModel);
-      print("data=$data");
       update();
     }
+  }
+
+  String formater(String url) {
+    return baseurl + url;
+  }
+
+  NetworkImage getImage(String imageName) {
+    print("imageName = $imageName");
+    String url = formater("/uploads//$imageName.jpg");
+    return NetworkImage(url);
   }
 }

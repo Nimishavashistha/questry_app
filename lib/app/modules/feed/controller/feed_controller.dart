@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:questry/app/data/addpostModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:questry/app/data/superModel.dart';
 import 'package:questry/app/modules/home/homepage.dart';
 
 class FeedController extends GetxController {
@@ -17,6 +18,9 @@ class FeedController extends GetxController {
   PickedFile imageFile;
   IconData iconphoto = Icons.image;
   FlutterSecureStorage storage = FlutterSecureStorage();
+  SuperModel superModel;
+  List<AddPostModel> data = [];
+  String baseurl = "http://10.0.2.2:8800";
 
   Future<http.StreamedResponse> patchImage(String url, String filepath) async {
     String token = await storage.read(key: "token");
@@ -30,6 +34,12 @@ class FeedController extends GetxController {
     return response;
   }
 
+  @override
+  void onInit() {
+    fetchOtherPosts();
+    super.onInit();
+  }
+
   void takePhoto(ImageSource source) async {
     final pickedFile = await picker.getImage(
       source: source,
@@ -38,14 +48,31 @@ class FeedController extends GetxController {
     update();
   }
 
-// String formater(String url) {
-//     return baseurl + url;
-//   }
+  void fetchOtherPosts() async {
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/posts/getOtherPost/");
+    var response = await http.get(
+      url,
+      headers: <String, String>{"Authorization": "Bearer $token"},
+    );
+    print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("inside fetchpostsdata");
+      superModel = SuperModel.fromJson(json.decode(response.body));
+      data = superModel.data;
+      update();
+    }
+  }
 
-  // NetworkImage getImage(String imageName){
-  //   String url = formater("/uploads//$imageName.jpg");
-  //   return NetworkImage(url);
-  // }
+  String formater(String url) {
+    return baseurl + url;
+  }
+
+  NetworkImage getImage(String imageName) {
+    print("imageName = $imageName");
+    String url = formater("/uploads//$imageName.jpg");
+    return NetworkImage(url);
+  }
 
   void submit() async {
     if (globalkey.currentState.validate()) {
