@@ -174,16 +174,18 @@ class AuthController extends GetxController {
 
   //adding a comment to the post
 
-  void addComment() async {
+  void addComment(postId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/comments/${user.username}");
-    final response = await http.post(url,
+    var url =
+        Uri.parse("http://10.0.2.2:8800/api/posts/comment/${user.username}");
+    final response = await http.put(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           "Authorization": "Bearer $token"
         },
         body: jsonEncode(<String, String>{
           "content": comment.text,
+          "_id": postId,
         }));
     print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {

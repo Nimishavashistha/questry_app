@@ -332,7 +332,9 @@ class post extends StatelessWidget {
                           suffixIcon: IconButton(
                             icon: Icon(Icons.send),
                             onPressed: () {
-                              controller.addComment();
+                              controller.addComment(
+                                addPostModel.id,
+                              );
                             },
                           ),
                           hintText: "Add your answer...",
