@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:questry/app/data/User.dart';
 import 'package:questry/app/data/addpostModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,6 +22,7 @@ class FeedController extends GetxController {
   SuperModel superModel;
   List<AddPostModel> data = [];
   String baseurl = "http://10.0.2.2:8800";
+  User user = User('', '');
 
   Future<http.StreamedResponse> patchImage(String url, String filepath) async {
     String token = await storage.read(key: "token");
@@ -49,13 +51,14 @@ class FeedController extends GetxController {
   }
 
   void fetchOtherPosts() async {
+    print("username:${user.username}");
     String token = await storage.read(key: "token");
     var url = Uri.parse("http://10.0.2.2:8800/api/posts/getOtherPost/");
     var response = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
     );
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("inside fetchpostsdata");
       superModel = SuperModel.fromJson(json.decode(response.body));
@@ -69,7 +72,7 @@ class FeedController extends GetxController {
   }
 
   NetworkImage getImage(String imageName) {
-    print("imageName = $imageName");
+    // print("imageName = $imageName");
     String url = formater("/uploads//$imageName.jpg");
     return NetworkImage(url);
   }

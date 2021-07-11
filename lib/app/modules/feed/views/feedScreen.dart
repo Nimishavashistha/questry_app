@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/data/addpostModel.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/authentication/controller/auth_controller.dart';
 import 'package:questry/app/modules/feed/controller/feed_controller.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
 
@@ -305,39 +306,47 @@ class post extends StatelessWidget {
                 ),
               ),
             ),
-            ListTile(
-              tileColor: Colors.grey.shade300,
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
+            GetBuilder<AuthController>(
+              builder: (controller) => ListTile(
+                tileColor: Colors.grey.shade300,
+                leading: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  child: Icon(
+                    Icons.person,
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
+                    size: 30,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.send),
-                        hintText: "Add a Comment...",
-                        border: InputBorder.none,
+                ),
+                title: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: TextField(
+                        controller: controller.comment,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.send),
+                            onPressed: () {
+                              controller.addComment();
+                            },
+                          ),
+                          hintText: "Add your answer...",
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 //              trailing: TextButton(
 //                child: Icon(Icons.send),
 //                onPressed: () {},
 //              ),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
