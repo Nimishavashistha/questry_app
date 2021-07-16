@@ -4,6 +4,7 @@ import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
 import 'package:questry/app/modules/feed/binding/feed_binding.dart';
 import 'package:questry/app/modules/feed/views/feedScreen.dart';
 import 'package:questry/app/modules/feed/views/pages/add_posts.dart';
+import 'package:questry/app/modules/feed/views/pages/questionWithAnswerPage.dart';
 import 'package:questry/app/modules/home/bindings/home_binding.dart';
 import 'package:questry/app/modules/home/homepage.dart';
 import 'package:questry/app/modules/home/loading_page.dart';
@@ -54,6 +55,12 @@ abstract class AppPages {
       name: _Paths.myPosts,
       page: () => PostScreen(),
       binding: ProfileBinding(),
+      transitionDuration: transitionDuration,
+    ),
+    GetPage(
+      name: _Paths.questionAnswerPage,
+      page: () => QuestionWithAnswerPage(),
+      binding: HomeBinding(),
       transitionDuration: transitionDuration,
     ),
     GetPage(

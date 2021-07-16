@@ -71,9 +71,6 @@ class ProfileController extends GetxController {
     update();
     String token = await storage.read(key: "token");
     var url = Uri.parse("http://10.0.2.2:8800/api/users/update");
-    print("semester=${semester.text}");
-    print("from=${location.text}");
-    print("about=${about.text}");
     final response = await http.patch(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -84,13 +81,13 @@ class ProfileController extends GetxController {
           "from": location.text,
           "desc": about.text,
         }));
-    print("response ${response.body}");
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (imageFile.path != null) {
         print("inside image");
         var url = "http://10.0.2.2:8800/api/upload";
         var imageResponse = patchImage(url, imageFile.path);
-        print(imageResponse);
+        fetchData();
+        // print(imageResponse);
 
         // if (imageResponse.statusCode == 200) {
         //   circular = false;
@@ -126,7 +123,6 @@ class ProfileController extends GetxController {
     );
     // print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("inside fetchpostsdata");
       superModel = SuperModel.fromJson(json.decode(response.body));
       data = superModel.data;
       update();

@@ -11,6 +11,7 @@ abstract class AppRoutes {
   static const addPost = _Paths.addPost;
   static const homePage = _Paths.homePage;
   static const myPosts = _Paths.myPosts;
+  static const questionAnswerPage = _Paths.questionAnswerPage;
 }
 
 abstract class _Paths {
@@ -24,4 +25,5 @@ abstract class _Paths {
   static const addPost = '/addPost';
   static const homePage = '/homePage';
   static const myPosts = '/myPosts';
+  static const questionAnswerPage = '/quesAnsPage';
 }

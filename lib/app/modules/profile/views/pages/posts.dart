@@ -17,13 +17,15 @@ class PostScreen extends StatelessWidget {
               )),
         ),
         body: GetBuilder<ProfileController>(
-          builder: (controller) => ListView(
-            children: controller.data
-                .map((item) => post(
-                      addPostModel: item,
-                    ))
-                .toList(),
-          ),
+          builder: (controller) => controller.data == null
+              ? Center(child: CircularProgressIndicator())
+              : ListView(
+                  children: controller.data
+                      .map((item) => post(
+                            addPostModel: item,
+                          ))
+                      .toList(),
+                ),
         ));
   }
 }

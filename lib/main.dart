@@ -11,8 +11,21 @@ import 'package:questry/app/modules/profile/bindings/profile_binding.dart';
 import './app/routes/app_pages.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'app/modules/authentication/controller/auth_controller.dart';
+import 'app/modules/feed/controller/feed_controller.dart';
+import 'app/modules/profile/controller/profile_controller.dart';
+
 void main() {
   runApp(MyApp());
+}
+
+class InitialBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<FeedController>(() => FeedController(), fenix: true);
+    Get.lazyPut<ProfileController>(() => ProfileController(), fenix: true);
+    Get.lazyPut<AuthController>(() => AuthController(), fenix: true);
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -49,20 +62,19 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     print("inside build $page");
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryColor: Color(0xff2e3b5b),
-          accentColor: Color(0xff2e3b5b),
-          fontFamily: 'Raleway',
-          textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontFamily: 'RobotoCondensed',
-                  fontWeight: FontWeight.bold))),
-      home: page,
-      getPages: AppPages.pages,
-      initialBinding: HomeBinding(),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            primaryColor: Color(0xff2e3b5b),
+            accentColor: Color(0xff2e3b5b),
+            fontFamily: 'Raleway',
+            textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontFamily: 'RobotoCondensed',
+                    fontWeight: FontWeight.bold))),
+        home: page,
+        getPages: AppPages.pages,
+        initialBinding: InitialBinding());
   }
 }

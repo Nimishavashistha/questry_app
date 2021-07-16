@@ -8,10 +8,18 @@ class AddPostModel {
   String img;
   String desc;
   List likes;
+  List noOfanswers;
   @JsonKey(name: "_id")
   String id;
 
-  AddPostModel({this.userId, this.img, this.desc, this.likes, this.id});
+  AddPostModel({
+    this.userId,
+    this.img,
+    this.desc,
+    this.likes,
+    this.noOfanswers,
+    this.id,
+  });
   factory AddPostModel.fromJson(Map<String, dynamic> json) =>
       _$AddPostModelFromJson(json);
   Map<String, dynamic> toJson() => _$AddPostModelToJson(this);

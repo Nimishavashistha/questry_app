@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:questry/app/data/addpostModel.dart';
 import 'app_pages.dart';
 
 abstract class RoutesManagement {
@@ -28,5 +29,10 @@ abstract class RoutesManagement {
 
   static void goToMyPostsPage() {
     Get.toNamed<void>(AppRoutes.myPosts);
+  }
+
+  static void goToQuestAnsPage(AddPostModel item, List comments) {
+    Get.toNamed<void>(AppRoutes.questionAnswerPage,
+        arguments: [item, comments]);
   }
 }

@@ -11,7 +11,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class AuthController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   User user = User('', '');
-  TextEditingController comment = TextEditingController();
   bool validate_signup = false;
   bool circular_signin = false;
   bool circular_signup = false;
@@ -170,32 +169,5 @@ class AuthController extends GetxController {
   void changeVisSign() {
     vis_signin = !vis_signin;
     update();
-  }
-
-  //adding a comment to the post
-
-  void addComment(postId) async {
-    String token = await storage.read(key: "token");
-    var url =
-        Uri.parse("http://10.0.2.2:8800/api/posts/comment/${user.username}");
-    final response = await http.put(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          "Authorization": "Bearer $token"
-        },
-        body: jsonEncode(<String, String>{
-          "content": comment.text,
-          "_id": postId,
-        }));
-    print(response.body);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.showSnackbar(
-        GetBar(
-          message: "your answer added",
-          isDismissible: true,
-        ),
-      );
-    }
-    Get.offAll(() => HomePage());
   }
 }
