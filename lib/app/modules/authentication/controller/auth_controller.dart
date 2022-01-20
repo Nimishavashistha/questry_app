@@ -133,6 +133,7 @@ class AuthController extends GetxController {
 
         Get.offAll(() => HomePage());
       } else {
+        print("inside else of signup function");
         Scaffold.of(Get.context)
             .showSnackBar(SnackBar(content: Text("Netwok Error")));
       }

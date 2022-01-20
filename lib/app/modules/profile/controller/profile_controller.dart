@@ -19,6 +19,7 @@ class ProfileController extends GetxController {
   bool circular = false;
   FlutterSecureStorage storage = FlutterSecureStorage();
   ProfileModel profileModel = ProfileModel();
+  ProfileModel profileModel2 = ProfileModel();
   int currentIndex = 0;
   SuperModel superModel;
   List<AddPostModel> data = [];
@@ -53,6 +54,24 @@ class ProfileController extends GetxController {
     if (res.statusCode == 200 || res.statusCode == 201) {
       profileModel = ProfileModel.fromJson(jsonDecode(res.body)["data"]);
       update();
+      circular = false;
+    }
+  }
+
+  void fetchingSpacificUserProfile(String postUserId) async {
+    print("inside fetchspecificuserprofile function");
+    circular = true;
+    String token = await storage.read(key: "token");
+    var url = Uri.parse(
+        "http://10.0.2.2:8800/api/users/getSpecificUserProfile/${postUserId}");
+    var res = await http.get(
+      url,
+      headers: <String, String>{"Authorization": "Bearer $token"},
+    );
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      profileModel2 = ProfileModel.fromJson(jsonDecode(res.body)["data"]);
+      update();
+      print("profileModel: ${profileModel2}");
       circular = false;
     }
   }

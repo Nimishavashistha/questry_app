@@ -8,6 +8,7 @@ class AddPostModel {
   String img;
   String desc;
   List likes;
+  List dislikes;
   List noOfanswers;
   @JsonKey(name: "_id")
   String id;
@@ -17,6 +18,7 @@ class AddPostModel {
     this.img,
     this.desc,
     this.likes,
+    this.dislikes,
     this.noOfanswers,
     this.id,
   });

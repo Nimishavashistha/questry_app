@@ -32,8 +32,11 @@ class FeedController extends GetxController {
   List<commentModel> comments = [];
   var upvoted = false;
   var downvoted = false;
+  var postupvoted = false;
+  var postdownvoted = false;
   List likes = [];
   List dislikes = [];
+  var url;
 
   Future<http.StreamedResponse> patchImage(String url, String filepath) async {
     String token = await storage.read(key: "token");
@@ -68,10 +71,10 @@ class FeedController extends GetxController {
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
     );
-    print("response = ${response.body}");
+    // print("response = ${response.body}");
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("inside fetchpostsdata");
+      // print("inside fetchpostsdata");
       superModel = SuperModel.fromJson(json.decode(response.body));
       data = superModel.data;
       update();
@@ -79,7 +82,7 @@ class FeedController extends GetxController {
     print("data=$data");
   }
 
-  Future fetchComments(String postId) async {
+  Future<void> fetchComments(String postId) async {
     String token = await storage.read(key: "token");
     var url = Uri.parse("http://10.0.2.2:8800/api/comment/getComments/$postId");
     var response = await http.get(
@@ -94,7 +97,7 @@ class FeedController extends GetxController {
           CommentSuperModel.fromJson(json.decode(response.body));
       comments = commentSuperModel.data;
       update();
-      print("length=${comments.length}");
+      // print("length=${comments.length}");
     }
     // comments.map((comment) {
     //   downvoted = comment.dislikes.length == 0 ? false : true;
@@ -338,5 +341,139 @@ class FeedController extends GetxController {
     // if (response.statusCode == 200 || response.statusCode == 201) {
 
     // }
+  }
+
+  Future<void> PostUpvote(String postId) async {
+    // print("feedcontroller.upvoted=$upvoted");
+    // print("feedcontroller.downvoted=$downvoted");
+    print("inside postUpvote");
+    if (postupvoted) {
+      await undoPostUpvote(postId);
+      return;
+    }
+    if (postdownvoted) {
+      await undoPostDownvote(postId);
+      // return;
+    }
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/posts/upvotes");
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "postId": postId,
+        }));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      postupvoted = true;
+      update();
+      var id = json.decode(response.body)['_id'];
+      // print("inside upvotes id= $id");
+      data.map((post) {
+        if (post.id == id) {
+          post.likes = json.decode(response.body)['likes'];
+          update();
+        }
+      }).toList();
+      // print("after clicking up arrow_upward upvoted=${postupvoted}");
+      // print("after clicking up arrow_upward downvoted=${postdownvoted}");
+    }
+  }
+
+  Future<void> undoPostUpvote(String postId) async {
+    print("inside undoPostUpvote");
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/posts/undoUpvotes");
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "postId": postId,
+        }));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      postupvoted = false;
+      update();
+      var id = json.decode(response.body)['_id'];
+      // print("inside undoUpvotes id= $id");
+      data.map((post) {
+        if (post.id == id) {
+          post.likes = json.decode(response.body)['likes'];
+          update();
+        }
+      }).toList();
+    }
+  }
+
+  Future<void> PostDownvote(String postId) async {
+    print("inside postDownvotes");
+    // print("feedcontroller.upvoted=$upvoted");
+    // print("feedcontroller.downvoted=$downvoted");
+    if (postdownvoted) {
+      await undoPostDownvote(postId);
+      return;
+    }
+    if (postupvoted) {
+      await undoPostUpvote(postId);
+    }
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/posts/downvotes");
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "postId": postId,
+        }));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      postdownvoted = true;
+      update();
+      var id = json.decode(response.body)['_id'];
+      // print("inside undoUpvotes id= $id");
+      data.map((post) {
+        if (post.id == id) {
+          post.dislikes = json.decode(response.body)['dislikes'];
+          update();
+        }
+      }).toList();
+    }
+    // print("after clicking up arrow_upward upvoted=${postupvoted}");
+    // print("after clicking up arrow_upward downvoted=${postdownvoted}");
+  }
+
+  Future<void> undoPostDownvote(String postId) async {
+    print("insdie undoPostDownVote");
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/posts/undoDownvotes");
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "postId": postId,
+        }));
+    // print(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      postdownvoted = false;
+      update();
+      var id = json.decode(response.body)['_id'];
+      // print("inside undoPostDownvotes id= $id");
+      data.map((post) {
+        if (post.id == id) {
+          post.dislikes = json.decode(response.body)['dislikes'];
+          update();
+        }
+      }).toList();
+    }
+    // print("after clicking up arrow_upward upvoted=${postupvoted}");
+    // print("after clicking up arrow_upward downvoted=${postdownvoted}");
   }
 }

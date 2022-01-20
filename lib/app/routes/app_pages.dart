@@ -42,7 +42,7 @@ abstract class AppPages {
     ),
     GetPage(
         name: _Paths.ProfilePage,
-        page: () => ProfilePage(),
+        page: () => ProfilePage(false),
         transitionDuration: transitionDuration,
         binding: ProfileBinding()),
     GetPage(

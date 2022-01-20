@@ -6,7 +6,7 @@ commentModel _$commentModelFromJson(Map<String, dynamic> json) {
     likes: json['likes'] as List,
     dislikes: json['dislikes'] as List,
     userName: json['userName'] as String,
-    postUserId: json['PostUserId'] as String,
+    postUserId: json['postUserId'] as String,
     id: json['_id'] as String,
     userpic: json['userpic'] as String,
     postId: json['postId'] as String,

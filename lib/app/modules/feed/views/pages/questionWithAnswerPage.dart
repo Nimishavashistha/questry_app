@@ -4,7 +4,10 @@ import 'package:questry/app/data/addpostModel.dart';
 import 'package:get/get.dart';
 import 'package:questry/app/data/commentModel.dart';
 import 'package:questry/app/modules/feed/controller/feed_controller.dart';
+import 'package:questry/app/modules/feed/views/pages/add_posts.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
+import 'package:questry/app/modules/profile/views/profile_page.dart';
+import 'package:questry/app/routes/routes_management.dart';
 
 class QuestionWithAnswerPage extends StatelessWidget {
   List arguments = Get.arguments;
@@ -126,7 +129,7 @@ class post extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  "4 Answers",
+                  "${addPostModel.noOfanswers.length.toString()} Answers",
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -136,45 +139,56 @@ class post extends StatelessWidget {
             GetBuilder<FeedController>(
               builder: (controller) => ListTile(
                 tileColor: Colors.grey.shade300,
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
+                // leading: CircleAvatar(
+                //   backgroundColor: Colors.grey,
+                //   child: Icon(
+                //     Icons.person,
+                //     color: Colors.white,
+                //     size: 30,
+                //   ),
+                // ),
+                trailing: ElevatedButton(
+                    onPressed: () {
+                      controller.UpdatingTotalNoOfAnswers(addPostModel.id);
+                      controller.addComment(
+                        addPostModel.id,
+                      );
+                    },
+                    child: Text(
+                      "Answer",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: TextField(
-                        controller: controller.comment,
-                        onChanged: (val) {
-                          controller.changeEnteredMessage(val);
-                        },
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.send,
-                              color: primaryColor,
-                            ),
-                            onPressed: () {
-                              controller.UpdatingTotalNoOfAnswers(
-                                  addPostModel.id);
-                              controller.addComment(
-                                addPostModel.id,
-                              );
-                            },
+                    style: ElevatedButton.styleFrom(
+                        primary: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ))),
+                title: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: TextField(
+                      controller: controller.comment,
+                      onChanged: (val) {
+                        controller.changeEnteredMessage(val);
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.attach_file,
+                            color: primaryColor,
                           ),
-                          hintText: "Add your answer...",
-                          border: InputBorder.none,
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: Get.context,
+                                builder: (builder) => bottomSheet(Get.context));
+                          },
                         ),
+                        hintText: "Add your answer...",
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
@@ -218,6 +232,7 @@ class CommentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print("inside comment postUserId=${comment.postUserId}");
     return GetBuilder<FeedController>(
       builder: (controller) => Container(
         margin: EdgeInsets.only(top: 15, bottom: 15),
@@ -231,10 +246,8 @@ class CommentSection extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.grey,
-                    child: comment.userpic != ""
-                        ? Image(
-                            image: controller.getImage(comment.postUserId),
-                          )
+                    backgroundImage: comment.userpic != ""
+                        ? controller.getImage(comment.postUserId)
                         : Container(),
                   ),
                   Padding(
@@ -242,10 +255,26 @@ class CommentSection extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          comment.userName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        GetBuilder<ProfileController>(
+                          builder: (profilecontroller) => InkWell(
+                            child: Text(
+                              comment.userName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              if (comment.userName !=
+                                  profilecontroller.profileModel.username) {
+                                profilecontroller.fetchingSpacificUserProfile(
+                                    comment.postUserId);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ProfilePage(true)));
+                              } else {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ProfilePage(false)));
+                              }
+                            },
                           ),
                         ),
                         Text(

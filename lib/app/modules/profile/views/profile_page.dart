@@ -7,8 +7,12 @@ import 'package:questry/app/modules/profile/controller/profile_controller.dart';
 import 'package:questry/app/routes/routes_management.dart';
 
 class ProfilePage extends StatelessWidget {
+  ProfilePage(this.cameFromChat);
+  final bool cameFromChat;
+
   @override
   Widget build(BuildContext context) {
+    print("cameFromChat value is: $cameFromChat");
     return GetBuilder<ProfileController>(
         builder: (controller) => Scaffold(
             backgroundColor: Colors.grey.shade200,
@@ -37,31 +41,33 @@ class ProfilePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                  bottom: 0,
-                                  right: 120.0,
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        width: 4,
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                      ),
-                                      color: primaryColor,
-                                    ),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        RoutesManagement.goToEditProfilePage();
-                                      },
-                                    ),
-                                  ))
+                              cameFromChat
+                                  ? Container()
+                                  : Positioned(
+                                      bottom: 0,
+                                      right: 120.0,
+                                      child: Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              width: 4,
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                            ),
+                                            color: primaryColor,
+                                          ),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              RoutesManagement
+                                                  .goToEditProfilePage();
+                                            },
+                                          )))
                             ],
                           ),
                         ),
@@ -72,7 +78,9 @@ class ProfilePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              controller.profileModel.username,
+                              cameFromChat
+                                  ? controller.profileModel2.username
+                                  : controller.profileModel.username,
                               style: TextStyle(
                                   fontSize: 25.0,
                                   color: primaryColor,
@@ -82,7 +90,9 @@ class ProfilePage extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              controller.profileModel.from,
+                              cameFromChat
+                                  ? controller.profileModel2.from
+                                  : controller.profileModel.from,
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.black54,
@@ -92,7 +102,9 @@ class ProfilePage extends StatelessWidget {
                               height: 6,
                             ),
                             Text(
-                              controller.profileModel.desc,
+                              cameFromChat
+                                  ? controller.profileModel2.desc
+                                  : controller.profileModel.desc,
                               style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.black54,
@@ -177,65 +189,10 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 190,
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 40.0),
-                                      child: TextField(
-                                          decoration: InputDecoration(
-                                            prefixIcon: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                                              ),
-                                            ),
-                                            labelText: "What's your doubt?",
-                                            labelStyle: TextStyle(
-                                              fontSize: 17,
-                                            ),
-                                            suffixIcon: IconButton(
-                                              icon: Icon(Icons.attach_file),
-                                              onPressed: () {
-                                                showModalBottomSheet(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    context: context,
-                                                    builder: (builder) =>
-                                                        bottomSheet(context));
-                                              },
-                                            ),
-                                          ),
-                                          onSubmitted: (_) => () {}),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            primary: primaryColor,
-                                          ),
-                                          child: Text(
-                                            "Post",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          onPressed: () {}),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        cameFromChat
+                            ? ElevatedButton(
+                                onPressed: () {}, child: Text("Chat"))
+                            : Container(),
                       ],
                     ),
             )));

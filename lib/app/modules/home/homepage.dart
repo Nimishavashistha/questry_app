@@ -9,7 +9,7 @@ import 'package:questry/app/modules/profile/views/profile_page.dart';
 import 'package:questry/app/routes/routes_management.dart';
 
 class HomePage extends StatelessWidget {
-  List<Widget> widgets = [FeedScreen(), ProfilePage()];
+  List<Widget> widgets = [FeedScreen(), ProfilePage(false)];
   List<String> titleString = ["Questry", "Profile Page"];
   // final storage = FlutterSecureStorage();
   // String username = "";

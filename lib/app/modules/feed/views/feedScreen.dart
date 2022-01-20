@@ -85,8 +85,8 @@ class post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("inside post widget");
-    print("noOfAnswers = ${addPostModel.noOfanswers.length}");
+    // print("inside post widget");
+    // print("noOfAnswers = ${addPostModel.noOfanswers.length}");
     return GetBuilder<ProfileController>(
       builder: (controller) => SafeArea(
         child: Column(
@@ -132,8 +132,8 @@ class post extends StatelessWidget {
                         )),
                     GetBuilder<FeedController>(
                         builder: (feedController) => Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -188,9 +188,128 @@ class post extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                ],
-                              ),
-                            ))
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(18.0)),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              addPostModel.likes.length
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.arrow_upward,
+                                                  size: 26,
+                                                ),
+                                                color: ((feedController
+                                                            .postupvoted =
+                                                        addPostModel.likes
+                                                                    .length ==
+                                                                0
+                                                            ? false
+                                                            : true)
+                                                    ? primaryColor
+                                                    : Colors.black),
+                                                onPressed: () async {
+                                                  feedController.postupvoted =
+                                                      addPostModel.likes
+                                                                  .length ==
+                                                              0
+                                                          ? false
+                                                          : true;
+                                                  feedController.postdownvoted =
+                                                      addPostModel.dislikes
+                                                                  .length ==
+                                                              0
+                                                          ? false
+                                                          : true;
+                                                  // print(
+                                                  //     "before clicking up arrow_upward upvoted=${feedController.postupvoted}");
+                                                  // print(
+                                                  //     "before clicking up arrow_upward downvoted=${feedController.postdownvoted}");
+                                                  await feedController
+                                                      .PostUpvote(
+                                                          addPostModel.id);
+                                                }),
+                                            Text(
+                                              addPostModel.dislikes.length
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.arrow_downward,
+                                                  size: 26,
+                                                ),
+                                                color: ((feedController
+                                                            .postdownvoted =
+                                                        addPostModel.dislikes
+                                                                    .length ==
+                                                                0
+                                                            ? false
+                                                            : true)
+                                                    ? primaryColor
+                                                    : Colors.black),
+                                                onPressed: () async {
+                                                  feedController.postupvoted =
+                                                      addPostModel.likes
+                                                                  .length ==
+                                                              0
+                                                          ? false
+                                                          : true;
+                                                  feedController.postdownvoted =
+                                                      addPostModel.dislikes
+                                                                  .length ==
+                                                              0
+                                                          ? false
+                                                          : true;
+                                                  // print(
+                                                  //     "before clicking up arrow_downward upvoted=${feedController.postupvoted}");
+                                                  // print(
+                                                  //     "before clicking up arrow_downward downvoted=${feedController.postdownvoted}");
+                                                  await feedController
+                                                      .PostDownvote(
+                                                          addPostModel.id);
+                                                }),
+                                            // ImageIcon(
+                                            //   AssetImage(
+                                            //       "assets/images/arrow-up.png"),
+                                            //   color: primaryColor,
+                                            //   size: 26,
+                                            // ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(
+                                            //       left: 8.0, right: 8.0),
+                                            //   child: Container(
+                                            //     height: 26,
+                                            //     decoration: BoxDecoration(
+                                            //         border:
+                                            //             Border.all(width: 1)),
+                                            //   ),
+                                            // ),
+                                            // ImageIcon(
+                                            //   AssetImage(
+                                            //       "assets/images/down-arrow.png"),
+                                            //   color:
+                                            //       primaryColor.withOpacity(0.4),
+                                            // ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ])))
                   ],
                 ),
               ),
