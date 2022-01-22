@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
+import 'package:questry/app/modules/chatbox/views/chatpage.dart';
 import 'package:questry/app/modules/feed/binding/feed_binding.dart';
 import 'package:questry/app/modules/feed/views/feedScreen.dart';
 import 'package:questry/app/modules/feed/views/pages/add_posts.dart';
@@ -77,6 +78,12 @@ abstract class AppPages {
       name: _Paths.addPost,
       page: () => AddPost(),
       binding: FeedBinding(),
+      transitionDuration: transitionDuration,
+    ),
+    GetPage(
+      name: _Paths.chatScreen,
+      page: () => ChatPage(),
+      // binding: FeedBinding(),
       transitionDuration: transitionDuration,
     )
   ];

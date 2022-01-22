@@ -31,6 +31,10 @@ abstract class RoutesManagement {
     Get.toNamed<void>(AppRoutes.myPosts);
   }
 
+  static void goToChatScreen() {
+    Get.toNamed<void>(AppRoutes.chatScreen);
+  }
+
   static void goToQuestAnsPage(AddPostModel item, List comments) {
     Get.toNamed<void>(AppRoutes.questionAnswerPage,
         arguments: [item, comments]);
