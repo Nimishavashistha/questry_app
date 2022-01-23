@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class replyCard extends StatelessWidget {
+  final String message;
+
+  const replyCard({Key key, this.message}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -19,7 +23,7 @@ class replyCard extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     left: 10, right: 60, top: 5, bottom: 20),
                 child: Text(
-                  "Hey",
+                  message,
                   style: TextStyle(fontSize: 16),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:questry/app/modules/chatbox/models/messageModel.dart';
 import 'package:questry/app/modules/chatbox/views/ownMessageCard.dart';
 import 'package:questry/app/modules/chatbox/views/replyCard.dart';
 import '../models/chatmodel.dart';
@@ -18,6 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   bool sendButton = false;
   TextEditingController _controller = TextEditingController();
   IO.Socket socket;
+  List<MessageModel> messages = [];
 
   @override
   void initState() {
@@ -40,13 +42,27 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     socket.connect();
     socket.emit("signin", widget.sourceChat.id);
-    socket.onConnect((data) => print("connected"));
+    socket.onConnect((data) {
+      print("connected");
+      socket.on("message", (msg) {
+        print(msg);
+        setMessage("destination", msg["message"]);
+      });
+    });
     print(socket.connected);
   }
 
   void sendMessage(String message, int sourceId, int tragetId) {
+    setMessage("source", message);
     socket.emit("message",
         {"message": message, "sourceId": sourceId, "targetId": tragetId});
+  }
+
+  void setMessage(String type, String message) {
+    MessageModel messageModel = MessageModel(type: type, message: message);
+    setState(() {
+      messages.add(messageModel);
+    });
   }
 
   @override
@@ -147,15 +163,20 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Stack(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height - 140,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    replyCard(),
-                    OwnMessageCard(),
-                  ],
-                ),
-              ),
+                  height: MediaQuery.of(context).size.height - 140,
+                  child: ListView.builder(
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        if (messages[index].type == "source") {
+                          return OwnMessageCard(
+                            message: messages[index].message,
+                          );
+                        } else {
+                          return replyCard(
+                            message: messages[index].message,
+                          );
+                        }
+                      })),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Column(
