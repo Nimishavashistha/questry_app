@@ -191,7 +191,10 @@ class ProfilePage extends StatelessWidget {
                         ),
                         cameFromChat
                             ? ElevatedButton(
-                                onPressed: () {}, child: Text("Chat"))
+                                onPressed: () {
+                                  // RoutesManagement.goToChatScreen();
+                                },
+                                child: Text("Chat"))
                             : Container(),
                       ],
                     ),

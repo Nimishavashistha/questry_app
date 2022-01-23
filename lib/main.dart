@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:questry/app/modules/authentication/bindings/auth_binding.dart';
 import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
+import 'package:questry/app/modules/chatbox/views/chatLoginScreen.dart';
 import 'package:questry/app/modules/chatbox/views/chatpage.dart';
 import 'package:questry/app/modules/feed/binding/feed_binding.dart';
 import 'package:questry/app/modules/home/bindings/home_binding.dart';
@@ -74,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                     color: Colors.white,
                     fontFamily: 'RobotoCondensed',
                     fontWeight: FontWeight.bold))),
-        home: ChatPage(),
+        home: chatLoginScreen(),
         getPages: AppPages.pages,
         initialBinding: InitialBinding());
   }

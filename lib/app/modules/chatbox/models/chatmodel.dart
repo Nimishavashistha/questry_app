@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class ChatModel {
   String name;
+  int id;
   IconData icon;
   String status;
   bool isGroup;
@@ -11,6 +12,7 @@ class ChatModel {
   bool select = false;
   ChatModel(
       {this.name,
+      this.id,
       this.isGroup,
       this.time,
       this.currentMessage,

@@ -4,8 +4,10 @@ import 'package:questry/app/modules/chatbox/views/chatscreen.dart';
 
 class CustomCard extends StatelessWidget {
   final ChatModel chatmodel;
+  final ChatModel sourceChat;
 
-  const CustomCard({Key key, this.chatmodel}) : super(key: key);
+  const CustomCard({Key key, this.chatmodel, this.sourceChat})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class CustomCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => ChatScreen(
                       chatmodel: chatmodel,
+                      sourceChat: sourceChat,
                     )));
       },
       child: Column(

@@ -5,8 +5,9 @@ import '../models/chatmodel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key key, this.chatmodel}) : super(key: key);
+  ChatScreen({Key key, this.chatmodel, this.sourceChat}) : super(key: key);
   final ChatModel chatmodel;
+  final ChatModel sourceChat;
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -14,6 +15,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   bool show = false;
   FocusNode focusNode = FocusNode();
+  bool sendButton = false;
   TextEditingController _controller = TextEditingController();
   IO.Socket socket;
 
@@ -32,13 +34,19 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void connect() {
-    socket = IO.io("http://192.168.20.184:5000", <String, dynamic>{
+    socket = IO.io("http://192.168.73.184:5000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
     socket.connect();
-    socket.emit("/test", "hello world");
+    socket.emit("signin", widget.sourceChat.id);
     socket.onConnect((data) => print("connected"));
+    print(socket.connected);
+  }
+
+  void sendMessage(String message, int sourceId, int tragetId) {
+    socket.emit("message",
+        {"message": message, "sourceId": sourceId, "targetId": tragetId});
   }
 
   @override
@@ -167,6 +175,17 @@ class _ChatScreenState extends State<ChatScreen> {
                                 focusNode: focusNode,
                                 maxLines: 5,
                                 minLines: 1,
+                                onChanged: (value) {
+                                  if (value.length > 0) {
+                                    setState(() {
+                                      sendButton = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      sendButton = false;
+                                    });
+                                  }
+                                },
                                 textAlignVertical: TextAlignVertical.center,
                                 keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
@@ -213,10 +232,18 @@ class _ChatScreenState extends State<ChatScreen> {
                             radius: 25,
                             child: IconButton(
                               icon: Icon(
-                                Icons.mic,
+                                sendButton ? Icons.send : Icons.mic,
                                 color: Colors.white,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                if (sendButton) {
+                                  sendMessage(
+                                      _controller.text,
+                                      widget.sourceChat.id,
+                                      widget.chatmodel.id);
+                                  _controller.clear();
+                                }
+                              },
                             ),
                           ),
                         )
