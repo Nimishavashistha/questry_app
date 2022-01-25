@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:questry/app/data/profileModel.dart';
 import 'package:questry/app/modules/chatbox/models/messageModel.dart';
 import 'package:questry/app/modules/chatbox/views/ownMessageCard.dart';
 import 'package:questry/app/modules/chatbox/views/replyCard.dart';
@@ -6,9 +7,9 @@ import '../models/chatmodel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key key, this.chatmodel, this.sourceChat}) : super(key: key);
-  final ChatModel chatmodel;
-  final ChatModel sourceChat;
+  ChatScreen({Key key, this.profile}) : super(key: key);
+  final ProfileModel profile;
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -22,48 +23,48 @@ class _ChatScreenState extends State<ChatScreen> {
   List<MessageModel> messages = [];
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    connect();
-    focusNode.addListener(() {
-      if (focusNode.hasFocus) {
-        setState(() {
-          show = false;
-        });
-      }
-    });
-  }
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   connect();
+  //   focusNode.addListener(() {
+  //     if (focusNode.hasFocus) {
+  //       setState(() {
+  //         show = false;
+  //       });
+  //     }
+  //   });
+  // }
 
-  void connect() {
-    socket = IO.io("http://192.168.73.184:5000", <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-    socket.connect();
-    socket.emit("signin", widget.sourceChat.id);
-    socket.onConnect((data) {
-      print("connected");
-      socket.on("message", (msg) {
-        print(msg);
-        setMessage("destination", msg["message"]);
-      });
-    });
-    print(socket.connected);
-  }
+  // void connect() {
+  //   socket = IO.io("http://192.168.73.184:5000", <String, dynamic>{
+  //     "transports": ["websocket"],
+  //     "autoConnect": false,
+  //   });
+  //   socket.connect();
+  //   socket.emit("signin", widget.sourceChat.id);
+  //   socket.onConnect((data) {
+  //     print("connected");
+  //     socket.on("message", (msg) {
+  //       print(msg);
+  //       setMessage("destination", msg["message"]);
+  //     });
+  //   });
+  //   print(socket.connected);
+  // }
 
-  void sendMessage(String message, int sourceId, int tragetId) {
-    setMessage("source", message);
-    socket.emit("message",
-        {"message": message, "sourceId": sourceId, "targetId": tragetId});
-  }
+  // void sendMessage(String message, int sourceId, int tragetId) {
+  //   setMessage("source", message);
+  //   socket.emit("message",
+  //       {"message": message, "sourceId": sourceId, "targetId": tragetId});
+  // }
 
-  void setMessage(String type, String message) {
-    MessageModel messageModel = MessageModel(type: type, message: message);
-    setState(() {
-      messages.add(messageModel);
-    });
-  }
+  // void setMessage(String type, String message) {
+  //   MessageModel messageModel = MessageModel(type: type, message: message);
+  //   setState(() {
+  //     messages.add(messageModel);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.chatmodel.name,
+                  widget.profile.username,
                   style: TextStyle(
                     fontSize: 18.5,
                     fontWeight: FontWeight.bold,
@@ -257,13 +258,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                if (sendButton) {
-                                  sendMessage(
-                                      _controller.text,
-                                      widget.sourceChat.id,
-                                      widget.chatmodel.id);
-                                  _controller.clear();
-                                }
+                                // if (sendButton) {
+                                //   sendMessage(
+                                //       _controller.text,
+                                //       widget.sourceChat.id,
+                                //       widget.chatmodel.id);
+                                //   _controller.clear();
+                                // }
                               },
                             ),
                           ),

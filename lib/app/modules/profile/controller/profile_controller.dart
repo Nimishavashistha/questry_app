@@ -70,9 +70,9 @@ class ProfileController extends GetxController {
     );
     if (res.statusCode == 200 || res.statusCode == 201) {
       profileModel2 = ProfileModel.fromJson(jsonDecode(res.body)["data"]);
-      update();
-      print("profileModel: ${profileModel2}");
+      print("profileModel2: ${profileModel2}");
       circular = false;
+      update();
     }
   }
 

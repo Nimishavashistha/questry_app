@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/global_widgets/drawer.dart';
+import 'package:questry/app/modules/chatbox/controller/chatController.dart';
+import 'package:questry/app/modules/chatbox/views/chatpage.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
 import 'package:questry/app/routes/routes_management.dart';
 
@@ -190,11 +192,29 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         cameFromChat
-                            ? ElevatedButton(
-                                onPressed: () {
-                                  // RoutesManagement.goToChatScreen();
-                                },
-                                child: Text("Chat"))
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          RoutesManagement.goToChatPage();
+                                        },
+                                        child: Text(
+                                          "chat",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            primary: primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(18.0),
+                                            ))),
+                                  ],
+                                ),
+                              )
                             : Container(),
                       ],
                     ),

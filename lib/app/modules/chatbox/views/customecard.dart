@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:questry/app/modules/chatbox/models/chatmodel.dart';
+import 'package:questry/app/data/profileModel.dart';
+
 import 'package:questry/app/modules/chatbox/views/chatscreen.dart';
 
 class CustomCard extends StatelessWidget {
-  final ChatModel chatmodel;
-  final ChatModel sourceChat;
+  final ProfileModel profile;
 
-  const CustomCard({Key key, this.chatmodel, this.sourceChat})
-      : super(key: key);
+  const CustomCard({Key key, this.profile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +16,7 @@ class CustomCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatScreen(
-                      chatmodel: chatmodel,
-                      sourceChat: sourceChat,
+                      profile: profile,
                     )));
       },
       child: Column(
@@ -28,18 +26,18 @@ class CustomCard extends StatelessWidget {
                 backgroundColor: Colors.blueGrey[200],
                 radius: 30,
                 child: Icon(
-                  chatmodel.isGroup ? Icons.group : Icons.person,
+                  Icons.person,
                   color: Colors.white,
                 ),
               ),
               title: Text(
-                chatmodel.name,
+                profile.username,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              trailing: Text(chatmodel.time),
+              trailing: Text("3:00"),
               subtitle: Row(
                 children: [
                   Icon(Icons.done_all),
@@ -47,7 +45,7 @@ class CustomCard extends StatelessWidget {
                     width: 3,
                   ),
                   Text(
-                    chatmodel.currentMessage,
+                    "hey",
                     style: TextStyle(fontSize: 16),
                   ),
                 ],

@@ -31,7 +31,7 @@ abstract class RoutesManagement {
     Get.toNamed<void>(AppRoutes.myPosts);
   }
 
-  static void goToChatScreen() {
+  static void goToChatPage() {
     Get.toNamed<void>(AppRoutes.chatScreen);
   }
 
