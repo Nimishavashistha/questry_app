@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -69,6 +70,24 @@ class ChatController extends GetxController {
       user = ProfileModel.fromJson(jsonDecode(res.body)["data"]);
       // print("inside getting user fun: ${user.username}");
       update();
+    }
+  }
+
+  void addMessage(String conversationId, String message) async {
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/messages/");
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "conversationId": conversationId,
+          "text": message,
+        }));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("inside add message function");
+      print(response.body);
     }
   }
 }

@@ -10,8 +10,9 @@ import '../models/chatmodel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key key, this.profile}) : super(key: key);
+  ChatScreen({Key key, this.profile, this.conversationId}) : super(key: key);
   final ProfileModel profile;
+  final String conversationId;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -23,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
   bool sendButton = false;
   TextEditingController _controller = TextEditingController();
   IO.Socket socket;
-  List<MessageModel> messages = [];
 
   @override
   // void initState() {
@@ -71,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("inside chat screen ${widget.conversationId}");
     return GetBuilder<ChatController>(
         builder: (controller) => Scaffold(
             backgroundColor: Colors.blueGrey[200],
@@ -170,11 +171,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     children: [
                       Container(
                           height: MediaQuery.of(context).size.height - 140,
-                          child: controller.allMessages.length == 0
-                              ? Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : ListView.builder(
+                          child: controller.allMessages.length > 0
+                              ? ListView.builder(
                                   itemCount: controller.allMessages.length,
                                   itemBuilder: (context, index) {
                                     if (controller.allMessages[index]
@@ -190,7 +188,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                             ["text"],
                                       );
                                     }
-                                  })),
+                                  })
+                              : Center(
+                                  child: CircularProgressIndicator(),
+                                )),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Column(
@@ -278,13 +279,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
-                                        // if (sendButton) {
-                                        //   sendMessage(
-                                        //       _controller.text,
-                                        //       widget.sourceChat.id,
-                                        //       widget.chatmodel.id);
-                                        //   _controller.clear();
-                                        // }
+                                        if (sendButton) {
+                                          if (_controller.text.length > 0) {
+                                            controller.addMessage(
+                                                widget.conversationId,
+                                                _controller.text);
+                                            _controller.clear();
+                                          }
+                                        }
                                       },
                                     ),
                                   ),

@@ -17,12 +17,14 @@ class CustomCard extends StatelessWidget {
     return GetBuilder<ChatController>(
         builder: (controller) => InkWell(
               onTap: () {
+                // print("conv id inside custom card ${conversationId}");
                 controller.getMessages(conversationId);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChatScreen(
                               profile: profile,
+                              conversationId: conversationId,
                             )));
               },
               child: Column(
