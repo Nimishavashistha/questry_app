@@ -23,6 +23,7 @@ class ChatPage extends StatelessWidget {
                     itemBuilder: (BuildContext context, index) {
                       return CustomCard(
                         profile: controller.allFriendsId[index],
+                        conversationId: controller.AllconversationId[index],
                       );
                     })));
   }

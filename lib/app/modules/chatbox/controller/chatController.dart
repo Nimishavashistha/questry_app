@@ -13,6 +13,8 @@ class ChatController extends GetxController {
   ProfileModel user = ProfileModel();
   bool circular = false;
   List<ProfileModel> allFriendsId = [];
+  List<String> AllconversationId = [];
+  var allMessages;
 
   void getConversations() async {
     circular = true;
@@ -25,14 +27,32 @@ class ChatController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       var data = jsonDecode(response.body)["data"];
       data.asMap().forEach((index, value) async {
+        String conversationId = value["_id"];
+        AllconversationId.add(conversationId);
         String userId = value["members"][1];
-        print(userId);
         await gettingUser(userId);
-        print("inside get conv fun: ${user.desc}");
         allFriendsId.add(user);
         update();
       });
-      print(allFriendsId);
+      // print(AllconversationId);
+      circular = false;
+      update();
+    }
+  }
+
+  void getMessages(String conversationId) async {
+    String token = await storage.read(key: "token");
+    var url = Uri.parse("http://10.0.2.2:8800/api/messages/${conversationId}");
+    var response = await http.get(
+      url,
+      headers: <String, String>{"Authorization": "Bearer $token"},
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      allMessages = jsonDecode(response.body);
+      // print(allMessages);
+      // data.asMap().forEach((index, value) async {
+      //   print(value["_id"]);
+      // });
       circular = false;
       update();
     }

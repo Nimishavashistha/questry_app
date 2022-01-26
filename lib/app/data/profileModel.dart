@@ -7,7 +7,9 @@ class ProfileModel {
   String sem;
   String from;
   String desc;
-  ProfileModel({this.username, this.sem, this.from, this.desc});
+  @JsonKey(name: "_id")
+  String id;
+  ProfileModel({this.username, this.sem, this.from, this.desc, this.id});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);

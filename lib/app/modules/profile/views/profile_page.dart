@@ -200,6 +200,8 @@ class ProfilePage extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                         onPressed: () {
+                                          print(
+                                              "inside chat button: ${controller.profileModel.id}");
                                           RoutesManagement.goToChatPage();
                                         },
                                         child: Text(
