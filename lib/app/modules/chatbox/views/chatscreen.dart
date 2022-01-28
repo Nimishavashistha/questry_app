@@ -10,9 +10,18 @@ import '../models/chatmodel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key key, this.profile, this.conversationId}) : super(key: key);
+  ChatScreen({
+    Key key,
+    this.profile,
+    this.conversationId,
+    this.userId,
+    this.chatcontroller,
+    // this.chatcontroller,
+  }) : super(key: key);
   final ProfileModel profile;
   final String conversationId;
+  final String userId;
+  final ChatController chatcontroller;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -23,55 +32,72 @@ class _ChatScreenState extends State<ChatScreen> {
   FocusNode focusNode = FocusNode();
   bool sendButton = false;
   TextEditingController _controller = TextEditingController();
+  ChatController chatController = Get.put(ChatController());
   IO.Socket socket;
+  Map<String, String> ArrivalMessage;
 
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   connect();
-  //   focusNode.addListener(() {
-  //     if (focusNode.hasFocus) {
-  //       setState(() {
-  //         show = false;
-  //       });
-  //     }
-  //   });
-  // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    connect();
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        setState(() {
+          show = false;
+        });
+      }
+    });
+  }
 
-  // void connect() {
-  //   socket = IO.io("http://192.168.73.184:5000", <String, dynamic>{
-  //     "transports": ["websocket"],
-  //     "autoConnect": false,
-  //   });
-  //   socket.connect();
-  //   socket.emit("signin", widget.sourceChat.id);
-  //   socket.onConnect((data) {
-  //     print("connected");
-  //     socket.on("message", (msg) {
-  //       print(msg);
-  //       setMessage("destination", msg["message"]);
-  //     });
-  //   });
-  //   print(socket.connected);
-  // }
+  void connect() {
+    socket = IO.io("http://10.0.2.2:5000", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.connect();
+    socket.emit("addUser", widget.userId);
+    socket.onConnect((data) {
+      print("connected");
+      socket.on("getUsers", (users) {
+        print(users);
+      });
+    });
+    print(socket.connected);
+  }
 
-  // void sendMessage(String message, int sourceId, int tragetId) {
-  //   setMessage("source", message);
-  //   socket.emit("message",
-  //       {"message": message, "sourceId": sourceId, "targetId": tragetId});
-  // }
+  void sendMessage(String message, String senderId, String receiverId) {
+    // setMessage();
+    socket.emit("sendMessage",
+        {"text": message, "senderId": senderId, "receiverId": receiverId});
+  }
 
-  // void setMessage(String type, String message) {
-  //   MessageModel messageModel = MessageModel(type: type, message: message);
-  //   setState(() {
-  //     messages.add(messageModel);
-  //   });
-  // }
+  void setMessage() {
+    socket.on("getMessage", (msg) {
+      widget.chatcontroller.arrivalMessage = {
+        "sender": msg.senderId,
+        "text": msg.text,
+        "createAt": DateTime.now()
+      };
+    });
+
+// data.asMap().forEach((index, value) async {
+    //   print(value["_id"]);
+    // });
+
+    widget.chatcontroller.allMessages.asMap().forEach((index, value) async {
+      if (value["sender"] = widget.chatcontroller.arrivalMessage["sender"]) {
+        widget.chatcontroller.allMessages.add(ArrivalMessage);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("inside chat screen ${widget.conversationId}");
+    print("inside chat screen conv id: ${widget.conversationId}");
+    // print("user id: ${widget.userId}");
+    // print("username: ${widget.profile.username}");
+    // print("inside chat screen ${widget.conversationId}");
     return GetBuilder<ChatController>(
         builder: (controller) => Scaffold(
             backgroundColor: Colors.blueGrey[200],
@@ -128,7 +154,9 @@ class _ChatScreenState extends State<ChatScreen> {
               actions: [
                 IconButton(
                   icon: Icon(Icons.videocam),
-                  onPressed: () {},
+                  onPressed: () {
+                    print(controller.circular);
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.call),
@@ -162,7 +190,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 })
               ],
             ),
-            body: GetBuilder<ProfileController>(
+            body: SafeArea(
+                child: GetBuilder<ProfileController>(
               builder: (profilecontroller) => Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -189,9 +218,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       );
                                     }
                                   })
-                              : Center(
-                                  child: CircularProgressIndicator(),
-                                )),
+                              : Container()),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Column(
@@ -278,13 +305,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                         sendButton ? Icons.send : Icons.mic,
                                         color: Colors.white,
                                       ),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (sendButton) {
                                           if (_controller.text.length > 0) {
+                                            sendMessage(
+                                                _controller.text,
+                                                profilecontroller
+                                                    .profileModel.id,
+                                                widget.profile.id);
                                             controller.addMessage(
                                                 widget.conversationId,
                                                 _controller.text);
                                             _controller.clear();
+                                            await controller.getMessages(
+                                                widget.conversationId);
+                                            print(controller.circular);
                                           }
                                         }
                                       },
@@ -311,7 +346,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                 ),
               ),
-            )));
+            ))));
   }
 
   Widget bottomSheet() {

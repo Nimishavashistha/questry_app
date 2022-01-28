@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
                     color: Colors.white,
                     fontFamily: 'RobotoCondensed',
                     fontWeight: FontWeight.bold))),
-        home: page,
+        home: SignInPage(),
         getPages: AppPages.pages,
         initialBinding: InitialBinding());
   }

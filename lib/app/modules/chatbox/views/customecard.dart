@@ -8,23 +8,28 @@ import 'package:questry/app/modules/chatbox/views/chatscreen.dart';
 class CustomCard extends StatelessWidget {
   final ProfileModel profile;
   final String conversationId;
+  final String userId;
 
-  const CustomCard({Key key, this.profile, this.conversationId})
+  const CustomCard({Key key, this.profile, this.conversationId, this.userId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ChatController>(
         builder: (controller) => InkWell(
-              onTap: () {
+              onTap: () async {
                 // print("conv id inside custom card ${conversationId}");
-                controller.getMessages(conversationId);
+                await controller.getMessages(conversationId);
+                // print(
+                // "inside custom card all messages = ${controller.allMessages}");
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChatScreen(
+                              chatcontroller: controller,
                               profile: profile,
                               conversationId: conversationId,
+                              userId: userId,
                             )));
               },
               child: Column(

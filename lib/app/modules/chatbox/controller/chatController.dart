@@ -16,8 +16,10 @@ class ChatController extends GetxController {
   List<ProfileModel> allFriendsId = [];
   List<String> AllconversationId = [];
   var allMessages;
+  var arrivalMessage;
+  var conversationsData;
 
-  void getConversations() async {
+  void getConversations(String userId) async {
     circular = true;
     String token = await storage.read(key: "token");
     var url = Uri.parse("http://10.0.2.2:8800/api/conversations");
@@ -26,22 +28,30 @@ class ChatController extends GetxController {
       headers: <String, String>{"Authorization": "Bearer $token"},
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
-      var data = jsonDecode(response.body)["data"];
-      data.asMap().forEach((index, value) async {
+      conversationsData = jsonDecode(response.body)["data"];
+      update();
+      conversationsData.asMap().forEach((index, value) async {
         String conversationId = value["_id"];
         AllconversationId.add(conversationId);
-        String userId = value["members"][1];
-        await gettingUser(userId);
+        String receiverId;
+        if (value["members"][1] != userId && value["members"][0] == userId) {
+          receiverId = value["members"][1];
+        } else if (value["members"][1] == userId &&
+            value["members"][0] != userId) {
+          receiverId = value["members"][0];
+        }
+        await gettingUser(receiverId);
         allFriendsId.add(user);
         update();
+        print(allFriendsId[0].username);
       });
-      // print(AllconversationId);
       circular = false;
       update();
     }
   }
 
   void getMessages(String conversationId) async {
+    circular = true;
     String token = await storage.read(key: "token");
     var url = Uri.parse("http://10.0.2.2:8800/api/messages/${conversationId}");
     var response = await http.get(
@@ -50,6 +60,7 @@ class ChatController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       allMessages = jsonDecode(response.body);
+      // print("inside get messages fun");
       // print(allMessages);
       // data.asMap().forEach((index, value) async {
       //   print(value["_id"]);

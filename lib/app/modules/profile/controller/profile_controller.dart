@@ -23,6 +23,7 @@ class ProfileController extends GetxController {
   int currentIndex = 0;
   SuperModel superModel;
   List<AddPostModel> data = [];
+  String startingConversationId;
   String baseurl = "http://10.0.2.2:8800";
 
   void setCurrentIndexToZero() {
@@ -156,5 +157,25 @@ class ProfileController extends GetxController {
     print("imageName = $imageName");
     String url = formater("/uploads//$imageName.jpg");
     return NetworkImage(url);
+  }
+
+  void startConversation(String receiverId) async {
+    String token = await storage.read(key: "token");
+    print("receiver is: ${receiverId}");
+    var url = Uri.parse("http://10.0.2.2:8800/api/conversations");
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, String>{
+          "receiverId": receiverId,
+        }));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(jsonDecode(response.body)["_id"]);
+      startingConversationId = jsonDecode(response.body)["_id"];
+      print("inside conv starting id: ${startingConversationId}");
+      update();
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/global_widgets/drawer.dart';
 import 'package:questry/app/modules/chatbox/controller/chatController.dart';
 import 'package:questry/app/modules/chatbox/views/chatpage.dart';
+import 'package:questry/app/modules/chatbox/views/chatscreen.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
 import 'package:questry/app/routes/routes_management.dart';
 
@@ -14,6 +15,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ChatController chatController = Get.put(ChatController());
+
     print("cameFromChat value is: $cameFromChat");
     return GetBuilder<ProfileController>(
         builder: (controller) => Scaffold(
@@ -192,31 +195,99 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         cameFromChat
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          print(
-                                              "inside chat button: ${controller.profileModel.id}");
-                                          RoutesManagement.goToChatPage();
-                                        },
-                                        child: Text(
-                                          "chat",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                            primary: primaryColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(18.0),
-                                            ))),
-                                  ],
-                                ),
-                              )
+                            ? GetBuilder<ChatController>(
+                                builder: (chatcontroller) => Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                // print(
+                                                //     "inside chat button: ${controller.profileModel.id}");
+                                                bool available = false;
+                                                String convId;
+                                                await chatController
+                                                    .getConversations(controller
+                                                        .profileModel.id);
+                                                print(
+                                                    "conv data: ${chatcontroller.conversationsData}");
+                                                chatcontroller.conversationsData
+                                                    .asMap()
+                                                    .forEach(
+                                                        (index, value) async {
+                                                  if (value["members"][0] ==
+                                                          controller
+                                                              .profileModel
+                                                              .id &&
+                                                      value["members"][1] ==
+                                                          controller
+                                                              .profileModel2
+                                                              .id) {
+                                                    available = true;
+                                                    convId = value["_id"];
+                                                  }
+                                                });
+                                                if (available) {
+                                                  // print("conv id: ${convId}");
+                                                  await chatController
+                                                      .getMessages(convId);
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ChatScreen(
+                                                                chatcontroller:
+                                                                    chatController,
+                                                                profile: controller
+                                                                    .profileModel2,
+                                                                conversationId:
+                                                                    convId,
+                                                                userId: controller
+                                                                    .profileModel
+                                                                    .id,
+                                                              )));
+                                                } else {
+                                                  await controller
+                                                      .startConversation(
+                                                          controller
+                                                              .profileModel2
+                                                              .id);
+                                                  await chatController
+                                                      .getMessages(controller
+                                                          .startingConversationId);
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ChatScreen(
+                                                                profile: controller
+                                                                    .profileModel2,
+                                                                conversationId:
+                                                                    controller
+                                                                        .startingConversationId,
+                                                                userId: controller
+                                                                    .profileModel
+                                                                    .id,
+                                                              )));
+                                                }
+                                                // print(
+                                                //     "start conv id: ${controller.startingConversationId}");
+                                              },
+                                              child: Text(
+                                                "chat",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: primaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                  ))),
+                                        ],
+                                      ),
+                                    ))
                             : Container(),
                       ],
                     ),

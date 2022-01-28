@@ -61,7 +61,9 @@ class MainDrawer extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
           TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                RoutesManagement.goToChatPage();
+              },
               icon: Icon(
                 Icons.message,
                 color: Colors.black,
