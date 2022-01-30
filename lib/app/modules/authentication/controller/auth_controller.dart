@@ -171,4 +171,28 @@ class AuthController extends GetxController {
     vis_signin = !vis_signin;
     update();
   }
+
+  Future UpdatePassword() async {
+    print("inside update pass");
+    circular_signin = true;
+    var url = Uri.parse("http://10.0.2.2:8800/api/auth/update/${user.email}");
+    final res = await http.patch(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'password': user.password}));
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      Map<String, dynamic> output = json.decode(res.body);
+      await storage.write(key: "token", value: output["token"]);
+      print(output);
+      circular_signin = false;
+      update();
+      Get.offAll(() => HomePage());
+    } else {
+      String output = json.decode(res.body);
+      errorText = output;
+      circular_signin = false;
+      update();
+    }
+  }
 }

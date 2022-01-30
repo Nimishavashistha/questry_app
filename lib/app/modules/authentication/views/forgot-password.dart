@@ -4,12 +4,11 @@ import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/global_widgets/custom_button.dart';
 import 'package:questry/app/global_widgets/custom_text_field.dart';
 import 'package:questry/app/global_widgets/glassmorphism_container.dart';
-import 'package:questry/app/modules/authentication/views/forgot-password.dart';
 import '../../../data/User.dart';
 import '../controller/auth_controller.dart';
 import '../../../routes/routes_management.dart';
 
-class SignInPage extends StatelessWidget {
+class ForgotPasswordPage extends StatelessWidget {
   User user = User('', '');
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class SignInPage extends StatelessWidget {
                           children: [
                             Spacer(),
                             Text(
-                              "Sign In",
+                              "Forgot Password",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30.0,
@@ -89,13 +88,13 @@ class SignInPage extends StatelessWidget {
                               isObscure: controller.vis_signin,
                             ),
                             SizedBox(
-                              height: 10.0,
+                              height: 20.0,
                             ),
                             CustomButton(
                               circular: controller.circular_signin,
-                              buttonName: "Sign In",
-                              onPress: () {
-                                controller.submitSignIn();
+                              buttonName: "Update Password",
+                              onPress: () async {
+                                await controller.UpdatePassword();
                               },
                               paddingH: 25.0,
                             ),
@@ -103,49 +102,6 @@ class SignInPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          RoutesManagement.goToSignUpScreen();
-                        },
-                        child: GlassMorphismContainer(
-                          height: 50.0,
-                          width: Get.width * 0.8,
-                          borderRadius: 10.0,
-                          child: Center(
-                            child: Text(
-                              "Don't have an account? Sign Up.",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          print("going to forgot pass");
-                          // RoutesManagement.goToForgotPasswordScreen();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage()));
-                        },
-                        child: GlassMorphismContainer(
-                          height: 50.0,
-                          width: Get.width * 0.8,
-                          borderRadius: 10.0,
-                          child: Center(
-                            child: Text(
-                              "Forgot password?",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
                     ],
                   )
                 ],

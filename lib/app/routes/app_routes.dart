@@ -3,6 +3,7 @@ part of 'app_pages.dart';
 abstract class AppRoutes {
   static const signin = _Paths.signin;
   static const signup = _Paths.signup;
+  static const forgotpassword = _Paths.forgotpassword;
   static const ProfilePage = _Paths.ProfilePage;
   static const FeedScreen = _Paths.FeedScreen;
   static const EditProfile = _Paths.EditProfile;
@@ -18,6 +19,7 @@ abstract class AppRoutes {
 abstract class _Paths {
   static const signin = '/signin';
   static const signup = '/signup';
+  static const forgotpassword = '/forgotpassword';
   static const ProfilePage = '/profilepage';
   static const FeedScreen = '/feedScreen';
   static const EditProfile = '/editprofile';

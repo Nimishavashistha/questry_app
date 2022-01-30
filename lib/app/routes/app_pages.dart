@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:questry/app/modules/authentication/views/forgot-password.dart';
 import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
 import 'package:questry/app/modules/chatbox/binding/chatbinding.dart';
@@ -29,6 +30,11 @@ abstract class AppPages {
     GetPage(
         name: _Paths.signup,
         page: () => GMSignUpPage(),
+        transitionDuration: transitionDuration,
+        binding: AuthBinding()),
+    GetPage(
+        name: _Paths.forgotpassword,
+        page: () => ForgotPasswordPage(),
         transitionDuration: transitionDuration,
         binding: AuthBinding()),
     GetPage(

@@ -11,6 +11,10 @@ abstract class RoutesManagement {
     Get.off<void>(AppRoutes.signin);
   }
 
+  static void goToForgotPasswordScreen() {
+    Get.off<void>(AppRoutes.forgotpassword);
+  }
+
   static void goToProfilePage() {
     Get.toNamed<void>(AppRoutes.ProfilePage);
   }
