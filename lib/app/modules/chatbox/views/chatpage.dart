@@ -11,29 +11,19 @@ class ChatPage extends StatelessWidget {
     ProfileController profileController = Get.put(ProfileController());
 
     return GetBuilder<ChatController>(
-        builder: (controller) => GetBuilder<ProfileController>(
-            builder: (profilecontroller) => Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  backgroundColor: Color(0xFF25D366),
-                  onPressed: () async {
-                    await controller
-                        .getConversations(profilecontroller.profileModel.id);
-                    print("all friends id: ${controller.allFriendsId}");
-                  },
-                  child: Icon(Icons.chat),
-                ),
-                body: controller.allFriendsId.length == 0
-                    ? Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        itemCount: controller.allFriendsId.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return GetBuilder<ProfileController>(
-                              builder: (profilecontroller) => CustomCard(
-                                    profile: controller.allFriendsId[index],
-                                    conversationId:
-                                        controller.AllconversationId[index],
-                                    userId: profilecontroller.profileModel.id,
-                                  ));
-                        }))));
+        builder: (controller) => Scaffold(
+            body: controller.allFriendsId.length == 0
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: controller.allFriendsId.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return GetBuilder<ProfileController>(
+                          builder: (profilecontroller) => CustomCard(
+                                profile: controller.allFriendsId[index],
+                                conversationId:
+                                    controller.AllconversationId[index],
+                                userId: profilecontroller.profileModel.id,
+                              ));
+                    })));
   }
 }

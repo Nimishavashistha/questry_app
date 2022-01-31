@@ -9,15 +9,18 @@ class CustomTextField extends StatelessWidget {
 
   final bool isObscure;
 
-  const CustomTextField({
-    Key key,
-    this.hintText,
-    this.suffixIcon,
-    this.isObscure = false,
-    this.controller,
-    this.onchanged,
-    this.validationFun,
-  }) : super(key: key);
+  final String errortext;
+
+  const CustomTextField(
+      {Key key,
+      this.hintText,
+      this.suffixIcon,
+      this.isObscure = false,
+      this.controller,
+      this.onchanged,
+      this.validationFun,
+      this.errortext})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +61,7 @@ class CustomTextField extends StatelessWidget {
               borderSide: BorderSide(color: Colors.red)),
           suffixIcon: suffixIcon,
           hintText: hintText,
+          errorText: errortext,
           hintStyle: TextStyle(
             color: Colors.white.withOpacity(0.8),
             fontSize: 18.0,

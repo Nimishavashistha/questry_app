@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:questry/app/modules/authentication/views/sign_-in_page.dart';
 import 'package:questry/app/modules/home/homepage.dart';
+import 'package:questry/app/routes/routes_management.dart';
 import '../../../data/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,7 @@ class AuthController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   User user = User('', '');
   bool validate_signup = false;
+  bool validate_signin = false;
   bool circular_signin = false;
   bool circular_signup = false;
   final storage = new FlutterSecureStorage();
@@ -87,6 +90,7 @@ class AuthController extends GetxController {
       Map<String, dynamic> output = json.decode(res.body);
       print(output["token"]);
       await storage.write(key: "token", value: output["token"]);
+      validate_signin = true;
       circular_signin = false;
       update();
       Get.offAll(() => HomePage());
@@ -194,5 +198,10 @@ class AuthController extends GetxController {
       circular_signin = false;
       update();
     }
+  }
+
+  void logout() async {
+    await storage.delete(key: "token");
+    Get.off<void>(SignInPage());
   }
 }

@@ -61,6 +61,9 @@ class SignInPage extends StatelessWidget {
                                 validationFun: (value) =>
                                     controller.emailvalidation(value),
                                 hintText: "Email",
+                                errortext: controller.validate_signin
+                                    ? null
+                                    : controller.errorText,
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     Icons.person,
@@ -77,6 +80,9 @@ class SignInPage extends StatelessWidget {
                               validationFun: (value) =>
                                   controller.passValidation(value),
                               hintText: "Password",
+                              errortext: controller.validate_signin
+                                  ? null
+                                  : controller.errorText,
                               suffixIcon: IconButton(
                                 icon: Icon(controller.vis_signin
                                     ? Icons.visibility_off
@@ -125,11 +131,7 @@ class SignInPage extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           print("going to forgot pass");
-                          // RoutesManagement.goToForgotPasswordScreen();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage()));
+                          RoutesManagement.goToForgotPasswordScreen();
                         },
                         child: GlassMorphismContainer(
                           height: 50.0,

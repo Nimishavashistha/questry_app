@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:questry/app/constants/colors.dart';
+import 'package:questry/app/modules/authentication/controller/auth_controller.dart';
+import 'package:questry/app/modules/chatbox/controller/chatController.dart';
+import 'package:questry/app/modules/profile/controller/profile_controller.dart';
 import 'package:questry/app/modules/profile/views/pages/posts.dart';
 import 'package:questry/app/routes/routes_management.dart';
 
@@ -60,19 +64,25 @@ class MainDrawer extends StatelessWidget {
                 "Feed",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
-          TextButton.icon(
-              onPressed: () {
-                RoutesManagement.goToChatPage();
-              },
-              icon: Icon(
-                Icons.message,
-                color: Colors.black,
-                size: 23,
-              ),
-              label: Text(
-                "Talks",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              )),
+          GetBuilder<ChatController>(
+              builder: (controller) => GetBuilder<ProfileController>(
+                  builder: (profilecontroller) => TextButton.icon(
+                      onPressed: () async {
+                        if (controller.getConv == false) {
+                          await controller.getConversations(
+                              profilecontroller.profileModel.id);
+                        }
+                        RoutesManagement.goToChatPage();
+                      },
+                      icon: Icon(
+                        Icons.message,
+                        color: Colors.black,
+                        size: 23,
+                      ),
+                      label: Text(
+                        "Talks",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      )))),
           TextButton.icon(
               onPressed: () {},
               icon: Icon(
@@ -143,17 +153,20 @@ class MainDrawer extends StatelessWidget {
                 "Edit Profile",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
-          TextButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.logout,
-                color: Colors.black,
-                size: 23,
-              ),
-              label: Text(
-                "Logout",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ))
+          GetBuilder<AuthController>(
+              builder: (authcontroller) => TextButton.icon(
+                  onPressed: () async {
+                    await authcontroller.logout();
+                  },
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.black,
+                    size: 23,
+                  ),
+                  label: Text(
+                    "Logout",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )))
         ],
       ),
     );

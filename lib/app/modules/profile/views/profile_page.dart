@@ -211,8 +211,8 @@ class ProfilePage extends StatelessWidget {
                                                 await chatController
                                                     .getConversations(controller
                                                         .profileModel.id);
-                                                print(
-                                                    "conv data: ${chatcontroller.conversationsData}");
+                                                // print(
+                                                // "conv data: ${chatcontroller.conversationsData}");
                                                 chatcontroller.conversationsData
                                                     .asMap()
                                                     .forEach(

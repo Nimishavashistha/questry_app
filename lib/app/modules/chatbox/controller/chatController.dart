@@ -11,13 +11,13 @@ class ChatController extends GetxController {
   FlutterSecureStorage storage = FlutterSecureStorage();
   String baseurl = "http://10.0.2.2:8800";
   ConversationModel conversationModel = ConversationModel();
-  ProfileModel user = ProfileModel();
   bool circular = false;
   List<ProfileModel> allFriendsId = [];
   List<String> AllconversationId = [];
   var allMessages;
   var arrivalMessage;
   var conversationsData;
+  bool getConv = false;
 
   void getConversations(String userId) async {
     circular = true;
@@ -40,11 +40,18 @@ class ChatController extends GetxController {
             value["members"][0] != userId) {
           receiverId = value["members"][0];
         }
-        await gettingUser(receiverId);
+        print("receiver id: ${receiverId}");
+        ProfileModel user = ProfileModel();
+        user = await gettingUser(receiverId);
+        // print("user id: ${user.id}");
         allFriendsId.add(user);
         update();
-        print(allFriendsId[0].username);
+        // print(conversationsData);
+        // print(AllconversationId);
+        // print(allFriendsId[0].id);
+        // print(allFriendsId[1].id);
       });
+      getConv = true;
       circular = false;
       update();
     }
@@ -70,7 +77,7 @@ class ChatController extends GetxController {
     }
   }
 
-  void gettingUser(String userId) async {
+  Future<ProfileModel> gettingUser(String userId) async {
     String token = await storage.read(key: "token");
     var url = Uri.parse("http://10.0.2.2:8800/api/users/${userId}");
     var res = await http.get(
@@ -78,9 +85,10 @@ class ChatController extends GetxController {
       headers: <String, String>{"Authorization": "Bearer $token"},
     );
     if (res.statusCode == 200 || res.statusCode == 201) {
+      ProfileModel user = ProfileModel();
       user = ProfileModel.fromJson(jsonDecode(res.body)["data"]);
       // print("inside getting user fun: ${user.username}");
-      update();
+      return user;
     }
   }
 

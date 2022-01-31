@@ -74,7 +74,7 @@ class FeedController extends GetxController {
     // print("response = ${response.body}");
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      // print("inside fetchpostsdata");
+      print("inside fetchpostsdata");
       superModel = SuperModel.fromJson(json.decode(response.body));
       data = superModel.data;
       update();

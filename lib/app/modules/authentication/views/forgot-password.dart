@@ -9,7 +9,6 @@ import '../controller/auth_controller.dart';
 import '../../../routes/routes_management.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
-  User user = User('', '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +29,6 @@ class ForgotPasswordPage extends StatelessWidget {
           ),
           child: GetBuilder<AuthController>(
             builder: (controller) => Form(
-              key: controller.formKey,
               child: Stack(
                 children: [
                   Column(

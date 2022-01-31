@@ -12,7 +12,7 @@ abstract class RoutesManagement {
   }
 
   static void goToForgotPasswordScreen() {
-    Get.off<void>(AppRoutes.forgotpassword);
+    Get.toNamed<void>(AppRoutes.forgotpassword);
   }
 
   static void goToProfilePage() {

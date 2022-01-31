@@ -13,6 +13,7 @@ import './app/routes/app_pages.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'app/modules/authentication/controller/auth_controller.dart';
+import 'app/modules/chatbox/controller/chatController.dart';
 import 'app/modules/feed/controller/feed_controller.dart';
 import 'app/modules/profile/controller/profile_controller.dart';
 
@@ -26,6 +27,7 @@ class InitialBinding implements Bindings {
     Get.lazyPut<FeedController>(() => FeedController(), fenix: true);
     Get.lazyPut<ProfileController>(() => ProfileController(), fenix: true);
     Get.lazyPut<AuthController>(() => AuthController(), fenix: true);
+    Get.lazyPut<ChatController>(() => ChatController(), fenix: true);
   }
 }
 
@@ -74,7 +76,8 @@ class _MyAppState extends State<MyApp> {
                     color: Colors.white,
                     fontFamily: 'RobotoCondensed',
                     fontWeight: FontWeight.bold))),
-        home: SignInPage(),
+        // initialRoute: AppRoutes.signin,
+        home: page,
         getPages: AppPages.pages,
         initialBinding: InitialBinding());
   }

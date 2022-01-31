@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:questry/app/data/profileModel.dart';
 import 'package:questry/app/modules/chatbox/controller/chatController.dart';
-import 'package:questry/app/modules/chatbox/models/messageModel.dart';
 import 'package:questry/app/modules/chatbox/views/ownMessageCard.dart';
 import 'package:questry/app/modules/chatbox/views/replyCard.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
-import '../models/chatmodel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatScreen extends StatefulWidget {
