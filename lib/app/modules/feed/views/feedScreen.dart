@@ -211,73 +211,26 @@ class post extends StatelessWidget {
                                                   Icons.arrow_upward,
                                                   size: 26,
                                                 ),
-                                                color: ((feedController
-                                                            .postupvoted =
-                                                        addPostModel.likes
-                                                                    .length ==
-                                                                0
-                                                            ? false
-                                                            : true)
-                                                    ? primaryColor
-                                                    : Colors.black),
+                                                color:
+                                                    (feedController.postupvoted
+                                                        ? primaryColor
+                                                        : Colors.black),
                                                 onPressed: () async {
-                                                  feedController.postupvoted =
-                                                      addPostModel.likes
-                                                                  .length ==
-                                                              0
-                                                          ? false
-                                                          : true;
-                                                  feedController.postdownvoted =
-                                                      addPostModel.dislikes
-                                                                  .length ==
-                                                              0
-                                                          ? false
-                                                          : true;
-                                                  // print(
-                                                  //     "before clicking up arrow_upward upvoted=${feedController.postupvoted}");
-                                                  // print(
-                                                  //     "before clicking up arrow_upward downvoted=${feedController.postdownvoted}");
                                                   await feedController
                                                       .PostUpvote(
                                                           addPostModel.id);
                                                 }),
-                                            Text(
-                                              addPostModel.dislikes.length
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
+
                                             IconButton(
                                                 icon: Icon(
                                                   Icons.arrow_downward,
                                                   size: 26,
                                                 ),
-                                                color: ((feedController
-                                                            .postdownvoted =
-                                                        addPostModel.dislikes
-                                                                    .length ==
-                                                                0
-                                                            ? false
-                                                            : true)
+                                                color: (feedController
+                                                        .postdownvoted
                                                     ? primaryColor
                                                     : Colors.black),
                                                 onPressed: () async {
-                                                  feedController.postupvoted =
-                                                      addPostModel.likes
-                                                                  .length ==
-                                                              0
-                                                          ? false
-                                                          : true;
-                                                  feedController.postdownvoted =
-                                                      addPostModel.dislikes
-                                                                  .length ==
-                                                              0
-                                                          ? false
-                                                          : true;
-                                                  // print(
-                                                  //     "before clicking up arrow_downward upvoted=${feedController.postupvoted}");
-                                                  // print(
-                                                  //     "before clicking up arrow_downward downvoted=${feedController.postdownvoted}");
                                                   await feedController
                                                       .PostDownvote(
                                                           addPostModel.id);

@@ -327,20 +327,9 @@ class CommentSection extends StatelessWidget {
                                 ? primaryColor
                                 : Colors.black),
                             onPressed: () async {
-                              controller.upvoted =
-                                  comment.likes.length == 0 ? false : true;
-                              controller.downvoted =
-                                  comment.dislikes.length == 0 ? false : true;
-                              // print(
-                              //     "before clicking up arrow_upward upvoted=${controller.upvoted}");
-                              // print(
-                              //     "before clicking up arrow_upward downvoted=${controller.downvoted}");
+                              print("inside upvote button: ");
                               await controller.upvote(comment.id);
                             }),
-                        Text(
-                          comment.dislikes.length.toString(),
-                          style: TextStyle(color: Colors.black),
-                        ),
                         IconButton(
                             icon: Icon(
                               Icons.arrow_downward,
