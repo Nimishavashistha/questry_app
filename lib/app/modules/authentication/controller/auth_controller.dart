@@ -9,9 +9,10 @@ import 'package:questry/app/routes/routes_management.dart';
 import '../../../data/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   User user = User('', '');
   bool validate_signup = false;
   bool validate_signin = false;
@@ -79,7 +80,8 @@ class AuthController extends GetxController {
 
   Future signInSave() async {
     circular_signin = true;
-    var url = Uri.parse("http://10.0.2.2:8800/api/auth/login");
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/auth/login");
     final res = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -90,6 +92,7 @@ class AuthController extends GetxController {
       Map<String, dynamic> output = json.decode(res.body);
       print(output["token"]);
       await storage.write(key: "token", value: output["token"]);
+      // pref.setString('token', output["token"]);
       validate_signin = true;
       circular_signin = false;
       update();
@@ -104,7 +107,7 @@ class AuthController extends GetxController {
 
   Future signUpSave() async {
     print("signupsave function");
-    var url = Uri.parse("http://10.0.2.2:8800/api/auth/register");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/auth/register");
     final res = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -115,7 +118,7 @@ class AuthController extends GetxController {
           'password': user.password
         }));
     if (res.statusCode == 200 || res.statusCode == 201) {
-      var url = Uri.parse("http://10.0.2.2:8800/api/auth/login");
+      var url = Uri.parse("https://backend-ques.herokuapp.com/api/auth/login");
       final res = await http.post(url,
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -147,7 +150,7 @@ class AuthController extends GetxController {
   checkUser() async {
     print("in checkuser function");
     var url = Uri.parse(
-        "http://10.0.2.2:8800/api/auth/checkusername/${user.username}");
+        "https://backend-ques.herokuapp.com/api/auth/checkusername/${user.username}");
     print(user.username);
     if (user.username.length == 0) {
       validate_signup = false;
@@ -179,7 +182,8 @@ class AuthController extends GetxController {
   Future UpdatePassword() async {
     print("inside update pass");
     circular_signin = true;
-    var url = Uri.parse("http://10.0.2.2:8800/api/auth/update/${user.email}");
+    var url = Uri.parse(
+        "https://backend-ques.herokuapp.com/api/auth/update/${user.email}");
     final res = await http.patch(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

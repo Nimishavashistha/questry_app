@@ -5,6 +5,7 @@ import 'package:questry/app/global_widgets/custom_button.dart';
 import 'package:questry/app/global_widgets/custom_text_field.dart';
 import 'package:questry/app/global_widgets/glassmorphism_container.dart';
 import 'package:questry/app/modules/authentication/views/forgot-password.dart';
+import 'package:questry/app/modules/authentication/views/sign_up_page.dart';
 import '../../../data/User.dart';
 import '../controller/auth_controller.dart';
 import '../../../routes/routes_management.dart';
@@ -111,7 +112,10 @@ class SignInPage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          RoutesManagement.goToSignUpScreen();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GMSignUpPage()));
                         },
                         child: GlassMorphismContainer(
                           height: 50.0,

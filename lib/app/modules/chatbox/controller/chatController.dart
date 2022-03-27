@@ -9,7 +9,7 @@ import 'package:questry/app/data/profileModel.dart';
 
 class ChatController extends GetxController {
   FlutterSecureStorage storage = FlutterSecureStorage();
-  String baseurl = "http://10.0.2.2:8800";
+  String baseurl = "https://backend-ques.herokuapp.com/";
   ConversationModel conversationModel = ConversationModel();
   bool circular = false;
   List<ProfileModel> allFriendsId = [];
@@ -22,7 +22,7 @@ class ChatController extends GetxController {
   void getConversations(String userId) async {
     circular = true;
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/conversations");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/conversations");
     var response = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -60,7 +60,8 @@ class ChatController extends GetxController {
   void getMessages(String conversationId) async {
     circular = true;
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/messages/${conversationId}");
+    var url = Uri.parse(
+        "https://backend-ques.herokuapp.com/api/messages/${conversationId}");
     var response = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -79,7 +80,8 @@ class ChatController extends GetxController {
 
   Future<ProfileModel> gettingUser(String userId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/users/${userId}");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/users/${userId}");
     var res = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -94,7 +96,7 @@ class ChatController extends GetxController {
 
   void addMessage(String conversationId, String message) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/messages/");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/messages/");
     final response = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

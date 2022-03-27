@@ -7,11 +7,10 @@ import 'package:questry/app/modules/chatbox/views/chatpage.dart';
 import 'package:questry/app/modules/feed/binding/feed_binding.dart';
 import 'package:questry/app/modules/home/bindings/home_binding.dart';
 import 'package:questry/app/modules/home/homepage.dart';
-import 'package:questry/app/modules/home/loading_page.dart';
 import 'package:questry/app/modules/profile/bindings/profile_binding.dart';
 import './app/routes/app_pages.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app/modules/authentication/controller/auth_controller.dart';
 import 'app/modules/chatbox/controller/chatController.dart';
 import 'app/modules/feed/controller/feed_controller.dart';
@@ -38,8 +37,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = FlutterSecureStorage();
-  Widget page = LoadingPage();
-
+  Widget page;
   @override
   void initState() {
     // TODO: implement initState
@@ -49,6 +47,10 @@ class _MyAppState extends State<MyApp> {
 
   void checkLogin() async {
     String token = await storage.read(key: "token");
+    print("inside checklogin");
+    // final prefs = await SharedPreferences.getInstance();
+    // final key = 'token';
+    // final token = prefs.getString(key);
     print(token);
     if (token != null) {
       setState(() {
@@ -77,7 +79,7 @@ class _MyAppState extends State<MyApp> {
                     fontFamily: 'RobotoCondensed',
                     fontWeight: FontWeight.bold))),
         // initialRoute: AppRoutes.signin,
-        home: page,
+        home: SignInPage(),
         getPages: AppPages.pages,
         initialBinding: InitialBinding());
   }

@@ -47,7 +47,7 @@ class ProfileController extends GetxController {
   void fetchData() async {
     circular = true;
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/users/getData");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/users/getData");
     var res = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -64,7 +64,7 @@ class ProfileController extends GetxController {
     circular = true;
     String token = await storage.read(key: "token");
     var url = Uri.parse(
-        "http://10.0.2.2:8800/api/users/getSpecificUserProfile/${postUserId}");
+        "https://backend-ques.herokuapp.com/api/users/getSpecificUserProfile/${postUserId}");
     var res = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -90,7 +90,7 @@ class ProfileController extends GetxController {
     circular = true;
     update();
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/users/update");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/users/update");
     final response = await http.patch(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -104,7 +104,7 @@ class ProfileController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (imageFile.path != null) {
         print("inside image");
-        var url = "http://10.0.2.2:8800/api/upload";
+        var url = "https://backend-ques.herokuapp.com/api/upload";
         var imageResponse = patchImage(url, imageFile.path);
         fetchData();
         // print(imageResponse);
@@ -136,7 +136,8 @@ class ProfileController extends GetxController {
 
   void fetchPostsData() async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/posts/getOwnPost/");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/posts/getOwnPost/");
     var response = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -162,7 +163,7 @@ class ProfileController extends GetxController {
   void startConversation(String receiverId) async {
     String token = await storage.read(key: "token");
     print("receiver is: ${receiverId}");
-    var url = Uri.parse("http://10.0.2.2:8800/api/conversations");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/conversations");
     final response = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

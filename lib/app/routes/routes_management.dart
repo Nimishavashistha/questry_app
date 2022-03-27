@@ -4,7 +4,7 @@ import 'app_pages.dart';
 
 abstract class RoutesManagement {
   static void goToSignUpScreen() {
-    Get.off<void>(AppRoutes.signup);
+    Get.toNamed<void>(AppRoutes.signup);
   }
 
   static void goToSignInScreen() {

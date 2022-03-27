@@ -66,7 +66,8 @@ class FeedController extends GetxController {
 
   Future<void> fetchOtherPosts() async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/posts/getOtherPost/");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/posts/getOtherPost/");
     var response = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -84,7 +85,8 @@ class FeedController extends GetxController {
 
   Future<void> fetchComments(String postId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/comment/getComments/$postId");
+    var url = Uri.parse(
+        "https://backend-ques.herokuapp.com/api/comment/getComments/$postId");
     var response = await http.get(
       url,
       headers: <String, String>{"Authorization": "Bearer $token"},
@@ -123,7 +125,7 @@ class FeedController extends GetxController {
       print("isnide submit fun");
       print(desc.text);
       String token = await storage.read(key: "token");
-      var url = Uri.parse("http://10.0.2.2:8800/api/posts");
+      var url = Uri.parse("https://backend-ques.herokuapp.com/api/posts");
       // AddPostModel addPostModel = AddPostModel(desc: desc.text);
       // print(addPostModel.toJson());
       final response = await http.post(url,
@@ -139,7 +141,7 @@ class FeedController extends GetxController {
         desc.clear();
         if (imageFile.path != null) {
           String id = json.decode(response.body)["data"];
-          var url = "http://10.0.2.2:8800/api/posts/add/img/$id";
+          var url = "https://backend-ques.herokuapp.com/api/posts/add/img/$id";
           var imageResponse = patchImage(url, imageFile.path);
           Get.showSnackbar(
             GetBar(
@@ -175,7 +177,7 @@ class FeedController extends GetxController {
 
   void addComment(postId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/comment/");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/comment/");
     final response = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -204,7 +206,8 @@ class FeedController extends GetxController {
 
   Future<void> upvote(String commentId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/comment/upvotes");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/comment/upvotes");
     final response = await http.put(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -227,7 +230,8 @@ class FeedController extends GetxController {
 
   Future<void> downvote(String commentId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/comment/downvotes");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/comment/downvotes");
     final response = await http.put(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -251,7 +255,8 @@ class FeedController extends GetxController {
 
   Future<void> UpdatingTotalNoOfAnswers(String postId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/posts/noOfAnswers");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/posts/noOfAnswers");
     final response = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -268,7 +273,7 @@ class FeedController extends GetxController {
 
   Future<void> PostUpvote(String postId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/posts/upvotes");
+    var url = Uri.parse("https://backend-ques.herokuapp.com/api/posts/upvotes");
     final response = await http.put(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -291,7 +296,8 @@ class FeedController extends GetxController {
 
   Future<void> PostDownvote(String postId) async {
     String token = await storage.read(key: "token");
-    var url = Uri.parse("http://10.0.2.2:8800/api/posts/downvotes");
+    var url =
+        Uri.parse("https://backend-ques.herokuapp.com/api/posts/downvotes");
     final response = await http.put(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

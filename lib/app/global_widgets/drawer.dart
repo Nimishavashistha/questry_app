@@ -126,7 +126,7 @@ class MainDrawer extends StatelessWidget {
                 size: 23,
               ),
               label: Text(
-                "Questions",
+                "My Posts",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
           TextButton.icon(

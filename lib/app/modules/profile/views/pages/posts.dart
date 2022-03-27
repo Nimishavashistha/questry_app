@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:questry/app/constants/colors.dart';
 import 'package:questry/app/data/addpostModel.dart';
+import 'package:questry/app/modules/feed/controller/feed_controller.dart';
 import 'package:questry/app/modules/profile/controller/profile_controller.dart';
+import 'package:questry/app/routes/routes_management.dart';
 
 class PostScreen extends StatelessWidget {
   @override
@@ -12,6 +14,7 @@ class PostScreen extends StatelessWidget {
           backgroundColor: primaryColor,
           title: Text("My Posts",
               style: TextStyle(
+                fontSize: 20,
                 color: Colors.white,
                 fontFamily: "Raleway",
               )),
@@ -39,6 +42,8 @@ class post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print("inside post widget");
+    // print("noOfAnswers = ${addPostModel.noOfanswers.length}");
     return GetBuilder<ProfileController>(
       builder: (controller) => SafeArea(
         child: Column(
@@ -82,223 +87,142 @@ class post extends StatelessWidget {
                             )
                           ],
                         )),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Answer",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  primary: primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                  ))),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10.0, bottom: 8.0),
-              width: double.infinity,
-              color: Colors.grey.shade300,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  "4 Answers",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Paul Graham",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                "Founder of Y-Combinator",
-                                style: TextStyle(color: Colors.black54),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "Cras mattis consecteturer purus set amet fermentum.Aenan lacinia bibendum nulla sed consecturer.Macenas fucibus mollis "
-                        "interdum. Cum soccis natoque penathosis et magnis dis partueuioe ,niosuygs",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 5.0),
-                      child: Text(
-                        "1.4k Views",
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(18.0)),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage("assets/images/arrow-up.png"),
-                                      color: primaryColor,
-                                      size: 26,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
-                                      child: Container(
-                                        height: 26,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(width: 1)),
-                                      ),
-                                    ),
-                                    ImageIcon(
-                                      AssetImage(
-                                          "assets/images/down-arrow.png"),
-                                      color: primaryColor.withOpacity(0.4),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Stack(
-                              children: [
-                                IconButton(
-                                    iconSize: 33,
-                                    icon: Icon(
-                                      Icons.comment,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {}),
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  child: CircleAvatar(
-                                      backgroundColor: primaryColor,
-                                      radius: 10,
+                    GetBuilder<FeedController>(
+                        builder: (feedController) => Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        await feedController
+                                            .fetchComments(addPostModel.id);
+
+                                        RoutesManagement.goToQuestAnsPage(
+                                            addPostModel,
+                                            feedController.comments);
+                                      },
                                       child: Text(
-                                        "2",
-                                        style: TextStyle(
-                                          color: Colors.white,
+                                        "Answer",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(18.0),
+                                          ))),
+                                  Stack(
+                                    children: [
+                                      IconButton(
+                                          iconSize: 33,
+                                          icon: Icon(
+                                            Icons.comment_rounded,
+                                            color: Colors.grey,
+                                          ),
+                                          onPressed: () async {
+                                            await feedController
+                                                .fetchComments(addPostModel.id);
+
+                                            RoutesManagement.goToQuestAnsPage(
+                                                addPostModel,
+                                                feedController.comments);
+                                          }),
+                                      Positioned(
+                                        top: 0,
+                                        left: 0,
+                                        child: CircleAvatar(
+                                            backgroundColor: primaryColor,
+                                            radius: 10,
+                                            child: Text(
+                                              addPostModel.noOfanswers.length
+                                                  .toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(18.0)),
                                         ),
-                                      )),
-                                )
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "answered",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              addPostModel.likes.length
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.arrow_upward,
+                                                  size: 26,
+                                                ),
+                                                color:
+                                                    (feedController.postupvoted
+                                                        ? primaryColor
+                                                        : Colors.black),
+                                                onPressed: () async {
+                                                  await feedController
+                                                      .PostUpvote(
+                                                          addPostModel.id);
+                                                }),
+
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.arrow_downward,
+                                                  size: 26,
+                                                ),
+                                                color: (feedController
+                                                        .postdownvoted
+                                                    ? primaryColor
+                                                    : Colors.black),
+                                                onPressed: () async {
+                                                  await feedController
+                                                      .PostDownvote(
+                                                          addPostModel.id);
+                                                }),
+                                            // ImageIcon(
+                                            //   AssetImage(
+                                            //       "assets/images/arrow-up.png"),
+                                            //   color: primaryColor,
+                                            //   size: 26,
+                                            // ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(
+                                            //       left: 8.0, right: 8.0),
+                                            //   child: Container(
+                                            //     height: 26,
+                                            //     decoration: BoxDecoration(
+                                            //         border:
+                                            //             Border.all(width: 1)),
+                                            //   ),
+                                            // ),
+                                            // ImageIcon(
+                                            //   AssetImage(
+                                            //       "assets/images/down-arrow.png"),
+                                            //   color:
+                                            //       primaryColor.withOpacity(0.4),
+                                            // ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  "Nov 11'20 at 12:33",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        )),
+                                ])))
                   ],
                 ),
               ),
-            ),
-            ListTile(
-              tileColor: Colors.grey.shade300,
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.send),
-                        hintText: "Add a Comment...",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-//              trailing: TextButton(
-//                child: Icon(Icons.send),
-//                onPressed: () {},
-//              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              width: double.infinity,
-              color: Colors.grey.shade300,
-              height: 8,
             ),
           ],
         ),
