@@ -2,6 +2,10 @@
 
 Social App for students to help solve their Doubts.
 
+# Download The Android APK
+
+<a href="https://drive.google.com/file/d/1hO3oUHbe0YRpfw0hlvU7uXB0nxgophG0/view?usp=sharing">Click Here To Download</a>
+
 # Screenshots
 
 <p float="left">
@@ -14,4 +18,4 @@ Social App for students to help solve their Doubts.
   <img src="screenshots/user_profile.png" width="300px"></img>
   <img src="screenshots/chat_screen.png" width="300px"></img>
 </p>
-<a href="https://drive.google.com/file/d/1hO3oUHbe0YRpfw0hlvU7uXB0nxgophG0/view?usp=sharing">Download APK</a>
+
