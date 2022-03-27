@@ -10,29 +10,29 @@ Social App for students to help solve their Doubts.
 
 ## Login & SignUp
 <p float="left">
-  <img src="screenshots/register_page.png" width="300px"></img>
-  <img src="screenshots/sign_in.png" width="300px"></img>
-  <img src="screenshots/forgot_pass.png" width="300px"></img>
+  <img src="screenshots/register_page.png" width="200px"></img>
+  <img src="screenshots/sign_in.png" width="200px"></img>
+  <img src="screenshots/forgot_pass.png" width="200px"></img>
 </p>
 
 ## Posts Features
 <p float="left">
-<img src="screenshots/posts.png" width="300px"></img>
-  <img src="screenshots/add_post.png" width="300px"></img>
-  <img src="screenshots/comment_section.png" width="300px"></img>
+<img src="screenshots/posts.png" width="200px"></img>
+  <img src="screenshots/add_post.png" width="200px"></img>
+  <img src="screenshots/comment_section.png" width="200px"></img>
   </p>
   
 ## user Profile
 <p flao="left">
-  <img src="screenshots/user_profile.png" width="300px"></img>
-   <img src="screenshots/edit_profile.png" width="300px"></img>
+  <img src="screenshots/user_profile.png" width="200px"></img>
+  <img src="screenshots/edit_profile.png" width="200px"></img>
   </p>
   
  ## Messaging Feature
  <p flao="left">
-  <img src="screenshots/chat1.png" width="300px"></img>
-   <img src="screenshots/chat2.png" width="300px"></img>
-   <img src="screenshots/chat3.png" width="300px"></img>
+  <img src="screenshots/chat1.png" width="200px"></img>
+   <img src="screenshots/chat2.png" width="200px"></img>
+   <img src="screenshots/chat3.png" width="200px"></img>
   </p>
 
 ## Dependencies
