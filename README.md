@@ -4,7 +4,7 @@ Social App for students to help solve their Doubts.
 
 ## Download The Android APK
 
-<a href="https://drive.google.com/file/d/1hO3oUHbe0YRpfw0hlvU7uXB0nxgophG0/view?usp=sharing">Click Here To Download</a>
+<a href="https://drive.google.com/file/d/1-_z_IcM0OX4xmyKQoo-vtbQWuqwlBs4H/view?usp=sharing">Click Here To Download</a>
 
 ## Screenshots
 
